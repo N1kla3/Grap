@@ -18,7 +18,10 @@ public:
     ~PaintScene(){}
 
 private:
+    void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
     void mousePressEvent(QGraphicsSceneMouseEvent *event);
+    void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
+    QGraphicsItem *selectedItem;
 };
 
 #endif // PAINTSCENE_H

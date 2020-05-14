@@ -12,9 +12,10 @@ public:
     QRectF boundingRect() const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)override;
 private:
-    void mouseMoveEvent(QGraphicsSceneMouseEvent *event) override;
-    void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
-    void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) override;
+    const int ELLIPSE_SIZE = 30;
+    //void mouseMoveEvent(QGraphicsSceneMouseEvent *event) override;
+    //void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
+    //void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) override;
 };
 
 #endif // NODE_H
