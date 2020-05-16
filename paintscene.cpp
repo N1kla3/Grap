@@ -1,4 +1,5 @@
 #include "paintscene.h"
+#include <arrow.h>
 
 PaintScene::PaintScene(QObject* parent):
     QGraphicsScene(parent)
@@ -12,17 +13,47 @@ void PaintScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event){
 }
 
 void PaintScene::mousePressEvent(QGraphicsSceneMouseEvent *event){
-    QGraphicsItem *item = itemAt(event->scenePos(), QTransform());
-    if(!item){
-        Node *a = new Node();
-        a->setPos(event->scenePos().x(), event->scenePos().y());
-        this->addItem(a);
-    }else{
-        selectedItem = item;
+
+    switch(flag){
+    case SELECTION:
+    {
+        QGraphicsItem *item = itemAt(event->scenePos(), QTransform());
+        Arrow *arrow = qgraphicsitem_cast<Arrow*>(item);
+        Node *node = qgraphicsitem_cast<Node*>(item);
+
+        if(node){
+            selectedItem = node;
+        }else if(arrow){
+            selectedItem = arrow;
+        }
+        QGraphicsScene::mousePressEvent(event);
+        break;
+    }
+
+    case CREATE_NODE:
+    {
+        Node *node = new Node();
+        node->setPos(event->scenePos().x(), event->scenePos().y());
+        this->addItem(node);
+        break;
+    }
+
+    case CREATE_ARROW:
+    {
+        Arrow *arrow = new Arrow();
+        arrow->setPos(event->scenePos().x(), event->scenePos().y());
+        this->addItem(arrow);
+        break;
+    }
+
     }
 }
 
 void PaintScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
     selectedItem = nullptr;
     Q_UNUSED(event)
+}
+
+void PaintScene::setFlag(EActionToDo mode){
+    flag = mode;
 }

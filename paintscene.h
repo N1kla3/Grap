@@ -7,6 +7,7 @@
 
 
 enum EActionToDo{
+    SELECTION,
     CREATE_NODE,
     CREATE_ARROW
 };
@@ -16,8 +17,10 @@ class PaintScene : public QGraphicsScene
 public:
     explicit PaintScene(QObject* parent = 0);
     ~PaintScene(){}
+    void setFlag(EActionToDo);
 
 private:
+    EActionToDo flag = SELECTION;
     void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
     void mousePressEvent(QGraphicsSceneMouseEvent *event);
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);

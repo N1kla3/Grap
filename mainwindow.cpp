@@ -7,6 +7,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     scene = new PaintScene();
+    scene->setFlag(CREATE_ARROW);
     ui->graphicsView->setScene(scene);
 
     timer = new QTimer();
@@ -14,21 +15,16 @@ MainWindow::MainWindow(QWidget *parent)
     timer->start(100);
 }
 
-void MainWindow::slotDrawNode(const int x, const int y){
-    Node *a = new Node();
-    a->setPos(x, y);
-    scene->addItem(a);
-}
-
 void MainWindow::slotTimer()
 {
     timer->stop();
-    scene->setSceneRect(0,0, ui->graphicsView->width() - 20, ui->graphicsView->height() - 20);
+    scene->setSceneRect(0,0, this->width(), this->height());
+    ui->graphicsView->resize(this->width()-40, this->height()-100);
 }
 
 void MainWindow::resizeEvent(QResizeEvent *event)
 {
-    timer->start(100);
+    timer->start(20);
     QWidget::resizeEvent(event);
 }
 
@@ -37,3 +33,8 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+
+void MainWindow::on_actionCursor_toggled(bool arg1)
+{
+    if(arg1)scene->setFlag(SELECTION);
+}

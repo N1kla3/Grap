@@ -31,6 +31,6 @@ private:
 
 private slots:
     void slotTimer();
-    void slotDrawNode(const int x, const int y);
+    void on_actionCursor_toggled(bool arg1);
 };
 #endif // MAINWINDOW_H

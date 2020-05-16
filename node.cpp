@@ -12,23 +12,9 @@ QRectF Node::boundingRect() const{
 }
 
 void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
-    painter->setPen(Qt::black);
+    painter->setPen(Qt::green);
     painter->setBrush(Qt::green);
     painter->drawEllipse(-15, -15, ELLIPSE_SIZE, ELLIPSE_SIZE);
     Q_UNUSED(option);
     Q_UNUSED(widget);
 }
-
-//void Node::mouseMoveEvent(QGraphicsSceneMouseEvent *event){
-//    this->setPos(mapToScene(event->pos()));
-//}
-//
-//void Node::mousePressEvent(QGraphicsSceneMouseEvent *event){
-//    this->setCursor(QCursor(Qt::ClosedHandCursor));
-//    Q_UNUSED(event)
-//}
-//
-//void Node::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
-//     this->setCursor(QCursor(Qt::ArrowCursor));
-//    Q_UNUSED(event)
-//}
