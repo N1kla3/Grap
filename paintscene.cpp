@@ -40,7 +40,10 @@ void PaintScene::mousePressEvent(QGraphicsSceneMouseEvent *event){
 
     case CREATE_ARROW:
     {
+
         Arrow *arrow = new Arrow();
+        arrow->setFirstNode(QPointF(event->scenePos().x(), event->scenePos().y()));
+        arrow->setFirstNode(QPointF(event->scenePos().x()+50, event->scenePos().y()+50));
         arrow->setPos(event->scenePos().x(), event->scenePos().y());
         this->addItem(arrow);
         break;

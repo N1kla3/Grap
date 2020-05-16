@@ -12,13 +12,16 @@ public:
     QRectF boundingRect() const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
     void setBetweenNodes();
+    void setFirstNode(QPointF point);
+    void setSecondNode(QPointF point);
 private:
     int width;
     int height;
+    qreal length;
     QPointF firstNode;
     QPointF secondNode;
-    qreal calculateRotation()const;
-    qreal calculateLength(const qreal x, const qreal y)const;
+    qreal calculateRotation();
+    qreal calculateLength( qreal x,  qreal y)const;
 };
 
 #endif // ARROW_H
