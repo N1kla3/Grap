@@ -4,7 +4,8 @@
 
 Arrow::Arrow(QObject *parent):
     QObject(parent),
-    QGraphicsItem()
+    QGraphicsItem(),
+    height(10)
 {
 
 }
@@ -12,7 +13,7 @@ Arrow::Arrow(QObject *parent):
 void Arrow::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
     painter->setPen(Qt::black);
     painter->setBrush(Qt::black);
-    painter->drawRect(5, 5, length-5, height-5);
+    painter->drawRect(0, 3, length-7, 4);
 
     QPolygon polygon;
     polygon << QPoint(length-10,0) << QPoint(length-10,10) << QPoint(length,5);
@@ -33,7 +34,7 @@ void Arrow::setBetweenNodes(){
 qreal Arrow::calculateRotation() {
     qreal res = 0;
     qreal result = 0;
-    qreal x = firstNode.x() - secondNode.y();
+    qreal x = firstNode.x() - secondNode.x();
     qreal y = firstNode.y() - secondNode.y();
     length = calculateLength(x, y);
     if((x > 0 && y > 0) || (x < 0 && y > 0)){

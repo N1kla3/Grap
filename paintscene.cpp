@@ -2,9 +2,12 @@
 #include <arrow.h>
 
 PaintScene::PaintScene(QObject* parent):
-    QGraphicsScene(parent)
+    QGraphicsScene(parent),
+    bDrawArrow(false),
+    flag(SELECTION),
+    selectedItem(nullptr)
 {
-    selectedItem = nullptr;
+
 }
 
 void PaintScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event){
@@ -40,12 +43,25 @@ void PaintScene::mousePressEvent(QGraphicsSceneMouseEvent *event){
 
     case CREATE_ARROW:
     {
+        if(!bDrawArrow){
+            Node *node = qgraphicsitem_cast<Node*>(itemAt(event->scenePos(), QTransform()));
+            if(node){
+                firstNodeOfArrow = node->scenePos();
+                bDrawArrow = true;
+            }
+        }else{
+            Node *node = qgraphicsitem_cast<Node*>(itemAt(event->scenePos(), QTransform()));
+            if(node){
+                Arrow *arrow = new Arrow();
+                arrow->setFirstNode(firstNodeOfArrow);
+                arrow->setSecondNode(node->scenePos());
+                arrow->setPos(firstNodeOfArrow);
+                arrow->setBetweenNodes();
+                this->addItem(arrow);
+            }
+            bDrawArrow = false;
+        }
 
-        Arrow *arrow = new Arrow();
-        arrow->setFirstNode(QPointF(event->scenePos().x(), event->scenePos().y()));
-        arrow->setFirstNode(QPointF(event->scenePos().x()+50, event->scenePos().y()+50));
-        arrow->setPos(event->scenePos().x(), event->scenePos().y());
-        this->addItem(arrow);
         break;
     }
 

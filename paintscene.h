@@ -20,7 +20,9 @@ public:
     void setFlag(EActionToDo);
 
 private:
-    EActionToDo flag = SELECTION;
+    bool bDrawArrow;
+    QPointF firstNodeOfArrow;
+    EActionToDo flag;
     void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
     void mousePressEvent(QGraphicsSceneMouseEvent *event);
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);

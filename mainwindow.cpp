@@ -7,7 +7,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     scene = new PaintScene();
-    scene->setFlag(CREATE_ARROW);
+    scene->setFlag(SELECTION);
     ui->graphicsView->setScene(scene);
 
     timer = new QTimer();
@@ -34,7 +34,29 @@ MainWindow::~MainWindow()
 }
 
 
-void MainWindow::on_actionCursor_toggled(bool arg1)
+void MainWindow::on_actionSelect_triggered()
 {
-    if(arg1)scene->setFlag(SELECTION);
+    for(auto action : ui->toolBar->actions()){
+        if(action->objectName() != "actionSelect")
+            action->setChecked(false);
+    }
+    scene->setFlag(SELECTION);
+}
+
+void MainWindow::on_actionNode_triggered()
+{
+    for(auto action : ui->toolBar->actions()){
+        if(action->objectName() != "actionNode")
+            action->setChecked(false);
+    }
+    scene->setFlag(CREATE_NODE);
+}
+
+void MainWindow::on_actionArrow_triggered()
+{
+    for(auto action : ui->toolBar->actions()){
+        if(action->objectName() != "actionArrow")
+            action->setChecked(false);
+    }
+    scene->setFlag(CREATE_ARROW);
 }

@@ -31,6 +31,8 @@ private:
 
 private slots:
     void slotTimer();
-    void on_actionCursor_toggled(bool arg1);
+    void on_actionSelect_triggered();
+    void on_actionNode_triggered();
+    void on_actionArrow_triggered();
 };
 #endif // MAINWINDOW_H
