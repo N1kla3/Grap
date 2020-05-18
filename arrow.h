@@ -1,7 +1,6 @@
 #ifndef ARROW_H
 #define ARROW_H
-#include <QGraphicsItem>
-#include <QObject>
+#include "node.h"
 
 class Arrow : public QObject, public QGraphicsItem
 {
@@ -11,16 +10,18 @@ public:
 
     QRectF boundingRect() const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
-    void setBetweenNodes();
-    void setFirstNode(QPointF point);
-    void setSecondNode(QPointF point);
+    void initBetweenNodes(Node *first, Node *second);
+public slots:
+    void slotFirstMove();
+    void slotSecondMove();
 private:
     int width;
     int height;
     qreal length;
-    QPointF firstNode;
-    QPointF secondNode;
+    Node *first;
+    Node *second;
     qreal calculateRotation();
+    void setBetweenNodes();
     qreal calculateLength( qreal x,  qreal y)const;
 };
 

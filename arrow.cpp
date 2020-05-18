@@ -7,16 +7,17 @@ Arrow::Arrow(QObject *parent):
     QGraphicsItem(),
     height(10)
 {
-
+    setZValue(1);
+    setTransformOriginPoint(0, 5);
 }
 
 void Arrow::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
-    painter->setPen(Qt::black);
-    painter->setBrush(Qt::black);
-    painter->drawRect(0, 3, length-7, 4);
+    painter->setPen(Qt::darkYellow);
+    painter->setBrush(Qt::darkYellow);
+    painter->drawRect(0, 3, length-30, 4);
 
     QPolygon polygon;
-    polygon << QPoint(length-10,0) << QPoint(length-10,10) << QPoint(length,5);
+    polygon << QPoint(length-30,0) << QPoint(length-30,10) << QPoint(length-20,5);
     painter->drawPolygon(polygon);
     Q_UNUSED(option);
     Q_UNUSED(widget);
@@ -34,8 +35,8 @@ void Arrow::setBetweenNodes(){
 qreal Arrow::calculateRotation() {
     qreal res = 0;
     qreal result = 0;
-    qreal x = firstNode.x() - secondNode.x();
-    qreal y = firstNode.y() - secondNode.y();
+    qreal x = first->scenePos().x() - second->scenePos().x();
+    qreal y = first->scenePos().y() - second->scenePos().y();
     length = calculateLength(x, y);
     if((x > 0 && y > 0) || (x < 0 && y > 0)){
         result = qFabs(y) / length;
@@ -60,10 +61,24 @@ qreal Arrow::calculateLength(qreal x, qreal y)const {
     return res;
 }
 
-void Arrow::setFirstNode(QPointF point){
-    firstNode = point;
+void Arrow::initBetweenNodes(Node *first, Node *second){
+    this->first = first;
+    this->second = second;
+    connect(this->first, &Node::moved, this, &Arrow::slotFirstMove);
+    connect(this->second, &Node::moved, this, &Arrow::slotSecondMove);
+    setPos(QPointF(first->scenePos().x(), first->scenePos().y()-5));
+    setBetweenNodes();
 }
 
-void Arrow::setSecondNode(QPointF point){
-    secondNode = point;
+void Arrow::slotFirstMove(){
+    setPos(QPointF(first->scenePos().x(), first->scenePos().y()-5));
+    setBetweenNodes();
+    prepareGeometryChange();
+    update();
+}
+
+void Arrow::slotSecondMove(){
+    setBetweenNodes();
+    prepareGeometryChange();
+    update();
 }

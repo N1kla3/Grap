@@ -12,7 +12,10 @@ PaintScene::PaintScene(QObject* parent):
 
 void PaintScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event){
     if(selectedItem)
-        selectedItem->setPos(event->scenePos());
+        if(Node *a = qgraphicsitem_cast<Node*>(selectedItem)){
+            a->setPos(event->scenePos());
+            a->moved();
+        }
 }
 
 void PaintScene::mousePressEvent(QGraphicsSceneMouseEvent *event){
@@ -20,6 +23,7 @@ void PaintScene::mousePressEvent(QGraphicsSceneMouseEvent *event){
     switch(flag){
     case SELECTION:
     {
+        bDrawArrow = false;
         QGraphicsItem *item = itemAt(event->scenePos(), QTransform());
         Arrow *arrow = qgraphicsitem_cast<Arrow*>(item);
         Node *node = qgraphicsitem_cast<Node*>(item);
@@ -35,6 +39,7 @@ void PaintScene::mousePressEvent(QGraphicsSceneMouseEvent *event){
 
     case CREATE_NODE:
     {
+        bDrawArrow = false;
         Node *node = new Node();
         node->setPos(event->scenePos().x(), event->scenePos().y());
         this->addItem(node);
@@ -46,22 +51,18 @@ void PaintScene::mousePressEvent(QGraphicsSceneMouseEvent *event){
         if(!bDrawArrow){
             Node *node = qgraphicsitem_cast<Node*>(itemAt(event->scenePos(), QTransform()));
             if(node){
-                firstNodeOfArrow = node->scenePos();
+                firstNodeOfArrow = node;
                 bDrawArrow = true;
             }
         }else{
             Node *node = qgraphicsitem_cast<Node*>(itemAt(event->scenePos(), QTransform()));
             if(node){
                 Arrow *arrow = new Arrow();
-                arrow->setFirstNode(firstNodeOfArrow);
-                arrow->setSecondNode(node->scenePos());
-                arrow->setPos(firstNodeOfArrow);
-                arrow->setBetweenNodes();
+                arrow->initBetweenNodes(firstNodeOfArrow, node);
                 this->addItem(arrow);
             }
             bDrawArrow = false;
         }
-
         break;
     }
 

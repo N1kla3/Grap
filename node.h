@@ -11,8 +11,11 @@ public:
     ~Node(){}
     QRectF boundingRect() const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)override;
+signals:
+    void moved();
 private:
     const int ELLIPSE_SIZE = 30;
+
 };
 
 #endif // NODE_H

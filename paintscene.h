@@ -3,7 +3,7 @@
 #include<QGraphicsScene>
 #include<QGraphicsSceneMouseEvent>
 #include <QTimer>
-#include <node.h>
+#include <arrow.h>
 
 
 enum EActionToDo{
@@ -21,7 +21,7 @@ public:
 
 private:
     bool bDrawArrow;
-    QPointF firstNodeOfArrow;
+    Node *firstNodeOfArrow;
     EActionToDo flag;
     void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
     void mousePressEvent(QGraphicsSceneMouseEvent *event);
