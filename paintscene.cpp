@@ -7,17 +7,22 @@ PaintScene::PaintScene(QObject* parent):
     flag(SELECTION),
     selectedItem(nullptr)
 {
-
+    firstNodeOfArrow = nullptr;
+    secondNodeOfArrow = nullptr;
+    one = nullptr;
+    two = nullptr;
+    currMininode = nullptr;
 }
 
 void PaintScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event){
-    if(selectedItem)
+    if(currMininode){
+        currMininode->setPos(event->scenePos());
+        currMininode->moved();
+    }else if(selectedItem)
         if(Node *a = qgraphicsitem_cast<Node*>(selectedItem)){
             a->setPos(event->scenePos());
             a->moved();
-        }else if(Arrow *b = qgraphicsitem_cast<Arrow*>(selectedItem)){
-
-        }
+    }
 }
 
 void PaintScene::mousePressEvent(QGraphicsSceneMouseEvent *event){
@@ -29,13 +34,31 @@ void PaintScene::mousePressEvent(QGraphicsSceneMouseEvent *event){
         QGraphicsItem *item = itemAt(event->scenePos(), QTransform());
         Arrow *arrow = qgraphicsitem_cast<Arrow*>(item);
         Node *node = qgraphicsitem_cast<Node*>(item);
-
-        if(node){
+        Mininode *mininode = qgraphicsitem_cast<Mininode*>(item);
+        if(mininode){
+            currMininode = mininode;
+        }else if(node){
+            if(qgraphicsitem_cast<Arrow*>(selectedItem)){
+                deleteMiniNodes();
+            }
             selectedItem = node;
         }else if(arrow){
+            if(qgraphicsitem_cast<Arrow*>(selectedItem)){
+                deleteMiniNodes();
+            }
             selectedItem = arrow;
+            firstNodeOfArrow = arrow->getFirstNode();
+            secondNodeOfArrow = arrow->getSecondNode();
+            one = new Mininode();
+            one->setPos(firstNodeOfArrow->pos());
+            two = new Mininode();
+            two->setPos(secondNodeOfArrow->pos());
+            arrow->setFirstNode(one);
+            arrow->setSecondNode(two);
+            arrow->update();
+            this->addItem(one);
+            this->addItem(two);
         }
-
         break;
     }
 
@@ -72,10 +95,40 @@ void PaintScene::mousePressEvent(QGraphicsSceneMouseEvent *event){
 }
 
 void PaintScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
-    selectedItem = nullptr;
+
+    if(currMininode != nullptr){
+        deleteMiniNodes();
+    }
+    if(!qgraphicsitem_cast<Arrow*>(selectedItem)){
+        selectedItem = nullptr;
+    }
     Q_UNUSED(event)
 }
 
 void PaintScene::setFlag(EActionToDo mode){
     flag = mode;
+}
+
+void PaintScene::deleteMiniNodes(){
+    Arrow *a = qgraphicsitem_cast<Arrow*>(selectedItem);
+    a->setFirstNode(nullptr);
+    a->setSecondNode(nullptr);
+    auto pos1 = one->pos();
+    auto pos2 = two->pos();
+    this->removeItem(one);
+    delete one;one = nullptr;
+    delete two;two = nullptr;
+    Node *node = qgraphicsitem_cast<Node*>(itemAt(pos1, QTransform()));
+    if(node){
+        a->setFirstNode(node);
+    }else{
+        a->setFirstNode(firstNodeOfArrow);
+    }
+    node = qgraphicsitem_cast<Node*>(itemAt(pos2, QTransform()));
+    if(node){
+        a->setSecondNode(node);
+    }else {
+        a->setSecondNode(secondNodeOfArrow);
+    }
+    currMininode = nullptr;
 }

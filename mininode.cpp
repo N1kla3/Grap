@@ -18,3 +18,7 @@ void Mininode::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, 
     Q_UNUSED(option);
     Q_UNUSED(widget);
 }
+
+int Mininode::type() const{
+    return Type;
+}

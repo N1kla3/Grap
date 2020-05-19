@@ -6,7 +6,9 @@
 Arrow::Arrow(QObject *parent):
     QObject(parent),
     QGraphicsItem(),
-    height(10)
+    height(10),
+    first(nullptr),
+    second(nullptr)
 {
     setZValue(1);
     setTransformOriginPoint(0, 5);
@@ -15,7 +17,7 @@ Arrow::Arrow(QObject *parent):
 void Arrow::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
     painter->setPen(Qt::darkYellow);
     painter->setBrush(Qt::darkYellow);
-    painter->drawRect(0, 3, length-30, 4);
+    painter->drawRect(20, 3, length-45, 4);
 
     QPolygon polygon;
     polygon << QPoint(length-30,0) << QPoint(length-30,10) << QPoint(length-20,5);
@@ -63,10 +65,8 @@ qreal Arrow::calculateLength(qreal x, qreal y)const {
 }
 
 void Arrow::initBetweenNodes(Node *first, Node *second){
-    this->first = first;
-    this->second = second;
-    connect(this->first, &Node::moved, this, &Arrow::slotFirstMove);
-    connect(this->second, &Node::moved, this, &Arrow::slotSecondMove);
+    setFirstNode(first);
+    setSecondNode(second);
     setPos(QPointF(first->scenePos().x(), first->scenePos().y()-5));
     setBetweenNodes();
 }
@@ -100,7 +100,7 @@ void Arrow::setFirstNode(Node *node){
         disconnect(this->first, &Node::moved, this, &Arrow::slotFirstMove);
     }
     this->first = node;
-    connect(this->first, &Node::moved, this, &Arrow::slotFirstMove);
+    if(node)connect(this->first, &Node::moved, this, &Arrow::slotFirstMove);
 }
 
 void Arrow::setSecondNode(Node *node){
@@ -108,7 +108,7 @@ void Arrow::setSecondNode(Node *node){
         disconnect(this->second, &Node::moved, this, &Arrow::slotSecondMove);
     }
     this->second = node;
-    connect(this->second, &Node::moved, this, &Arrow::slotSecondMove);
+    if(node)connect(this->second, &Node::moved, this, &Arrow::slotSecondMove);
 }
 
 Node* Arrow::getFirstNode(){

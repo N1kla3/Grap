@@ -22,10 +22,15 @@ public:
 private:
     bool bDrawArrow;
     Node *firstNodeOfArrow;
+    Node *secondNodeOfArrow;
+    Mininode *one;
+    Mininode *two;
+    Mininode *currMininode;
     EActionToDo flag;
     void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
     void mousePressEvent(QGraphicsSceneMouseEvent *event);
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
+    void deleteMiniNodes();
     QGraphicsItem *selectedItem;
 };
 
