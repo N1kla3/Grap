@@ -1,6 +1,7 @@
 #include "arrow.h"
 #include <QPainter>
 #include <QtMath>
+#include <QGraphicsSceneMouseEvent>
 
 Arrow::Arrow(QObject *parent):
     QObject(parent),
@@ -81,4 +82,39 @@ void Arrow::slotSecondMove(){
     setBetweenNodes();
     prepareGeometryChange();
     update();
+}
+
+void Arrow::mousePressEvent(QGraphicsSceneMouseEvent *event){
+    if(event->button() == Qt::RightButton)this->ungrabMouse();
+    first = nullptr;
+    second = nullptr;
+
+}
+
+int Arrow::type() const{
+    return Type;
+}
+
+void Arrow::setFirstNode(Node *node){
+    if(first != nullptr){
+        disconnect(this->first, &Node::moved, this, &Arrow::slotFirstMove);
+    }
+    this->first = node;
+    connect(this->first, &Node::moved, this, &Arrow::slotFirstMove);
+}
+
+void Arrow::setSecondNode(Node *node){
+    if(second != nullptr){
+        disconnect(this->second, &Node::moved, this, &Arrow::slotSecondMove);
+    }
+    this->second = node;
+    connect(this->second, &Node::moved, this, &Arrow::slotSecondMove);
+}
+
+Node* Arrow::getFirstNode(){
+    return first;
+}
+
+Node* Arrow::getSecondNode(){
+    return second;
 }

@@ -19,12 +19,14 @@ SOURCES += \
     arrow.cpp \
     main.cpp \
     mainwindow.cpp \
+    mininode.cpp \
     node.cpp \
     paintscene.cpp
 
 HEADERS += \
     arrow.h \
     mainwindow.h \
+    mininode.h \
     node.h \
     paintscene.h
 

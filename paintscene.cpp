@@ -15,6 +15,8 @@ void PaintScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event){
         if(Node *a = qgraphicsitem_cast<Node*>(selectedItem)){
             a->setPos(event->scenePos());
             a->moved();
+        }else if(Arrow *b = qgraphicsitem_cast<Arrow*>(selectedItem)){
+
         }
 }
 
@@ -33,7 +35,7 @@ void PaintScene::mousePressEvent(QGraphicsSceneMouseEvent *event){
         }else if(arrow){
             selectedItem = arrow;
         }
-        QGraphicsScene::mousePressEvent(event);
+
         break;
     }
 
