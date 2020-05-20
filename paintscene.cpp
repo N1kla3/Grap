@@ -133,5 +133,7 @@ void PaintScene::deleteMiniNodes(){
     }else {
         a->setSecondNode(secondNodeOfArrow);
     }
+    a->prepareUpdate();
+    a->update();
     currMininode = nullptr;
 }

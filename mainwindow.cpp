@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include <QTabWidget>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -9,7 +10,12 @@ MainWindow::MainWindow(QWidget *parent)
     scene = new PaintScene();
     scene->setFlag(SELECTION);
     ui->graphicsView->setScene(scene);
+    tabber = new QTabWidget(ui->centralwidget);
 
+    tabber->insertTab(1, ui->graphicsView, "view");
+
+    //updatesEnabled(bool);
+    tabber->show();
     timer = new QTimer();
     connect(timer, &QTimer::timeout, this, &MainWindow::slotTimer);
     timer->start(100);
@@ -19,7 +25,8 @@ void MainWindow::slotTimer()
 {
     timer->stop();
     scene->setSceneRect(0,0, this->width(), this->height());
-    ui->graphicsView->resize(this->width()-40, this->height()-100);
+    ui->graphicsView->resize(this->width(), this->height());
+    tabber->resize(this->width(), this->height());
 }
 
 void MainWindow::resizeEvent(QResizeEvent *event)

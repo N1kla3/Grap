@@ -15,6 +15,7 @@ public:
     void setSecondNode(Node *node);
     Node* getFirstNode();
     Node* getSecondNode();
+    void prepareUpdate();
 public slots:
     void slotFirstMove();
     void slotSecondMove();

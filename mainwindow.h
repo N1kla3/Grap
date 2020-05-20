@@ -18,10 +18,11 @@ public:
 
 private:
     Ui::MainWindow *ui;
-    QTimer *timer;      /* Определяем таймер для подготовки актуальных размеров
-                         * графической сцены
-                         * */
-    PaintScene *scene;  // Объявляем кастомную графическую сцену
+    QTimer *timer;
+    QTabWidget *tabber;
+
+
+    PaintScene *scene;
 
 private:
     /* Переопределяем событие изменения размера окна

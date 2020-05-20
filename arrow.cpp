@@ -79,6 +79,7 @@ void Arrow::slotFirstMove(){
 }
 
 void Arrow::slotSecondMove(){
+
     setBetweenNodes();
     prepareGeometryChange();
     update();
@@ -109,6 +110,12 @@ void Arrow::setSecondNode(Node *node){
     }
     this->second = node;
     if(node)connect(this->second, &Node::moved, this, &Arrow::slotSecondMove);
+}
+
+void Arrow::prepareUpdate(){
+    setPos(QPointF(first->scenePos().x(), first->scenePos().y()-5));
+    setBetweenNodes();
+    prepareGeometryChange();
 }
 
 Node* Arrow::getFirstNode(){
