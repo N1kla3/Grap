@@ -110,6 +110,9 @@ void PaintScene::setFlag(EActionToDo mode){
 }
 
 void PaintScene::deleteMiniNodes(){
+    if(!selectedItem)return;
+    if(!one)return;
+    if(!two)return;
     Arrow *a = qgraphicsitem_cast<Arrow*>(selectedItem);
     a->setFirstNode(nullptr);
     a->setSecondNode(nullptr);
