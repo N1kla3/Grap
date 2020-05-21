@@ -8,15 +8,17 @@ Arrow::Arrow(QObject *parent):
     QGraphicsItem(),
     height(10),
     first(nullptr),
-    second(nullptr)
+    second(nullptr),
+    brush(Qt::darkYellow),
+    pen(Qt::darkYellow)
 {
     setZValue(1);
     setTransformOriginPoint(0, 5);
 }
 
 void Arrow::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
-    painter->setPen(Qt::darkYellow);
-    painter->setBrush(Qt::darkYellow);
+    painter->setPen(pen);
+    painter->setBrush(brush);
     painter->drawRect(20, 3, length-45, 4);
 
     QPolygon polygon;
@@ -85,13 +87,6 @@ void Arrow::slotSecondMove(){
     update();
 }
 
-void Arrow::mousePressEvent(QGraphicsSceneMouseEvent *event){
-    if(event->button() == Qt::RightButton)this->ungrabMouse();
-    first = nullptr;
-    second = nullptr;
-
-}
-
 int Arrow::type() const{
     return Type;
 }
@@ -124,4 +119,10 @@ Node* Arrow::getFirstNode(){
 
 Node* Arrow::getSecondNode(){
     return second;
+}
+
+void Arrow::setColor(const QColor color){
+    brush.setColor(color);
+    pen.setColor(color);
+    update();
 }

@@ -1,5 +1,7 @@
 #include "paintscene.h"
 #include <arrow.h>
+#include<QMenu>
+#include<QColorDialog>
 
 PaintScene::PaintScene(QObject* parent):
     QGraphicsScene(parent),
@@ -35,6 +37,7 @@ void PaintScene::mousePressEvent(QGraphicsSceneMouseEvent *event){
         Arrow *arrow = qgraphicsitem_cast<Arrow*>(item);
         Node *node = qgraphicsitem_cast<Node*>(item);
         Mininode *mininode = qgraphicsitem_cast<Mininode*>(item);
+
         if(mininode){
             currMininode = mininode;
         }else if(node){
@@ -105,6 +108,20 @@ void PaintScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
     Q_UNUSED(event)
 }
 
+void PaintScene::contextMenuEvent(QGraphicsSceneContextMenuEvent *event){
+    if(flag != SELECTION)return;
+    QGraphicsItem *selectedItemForPopupMenu = itemAt(event->scenePos(), QTransform());
+    selectedNodeForPopupMenu = qgraphicsitem_cast<Node*>(selectedItemForPopupMenu);
+    selectedArrowForPopupMenu = qgraphicsitem_cast<Arrow*>(selectedItemForPopupMenu);
+    if(selectedItemForPopupMenu){
+        QMenu menu(event->widget());
+        menu.addAction("Change color", this, &PaintScene::slot_color);
+        if(selectedNodeForPopupMenu)
+            menu.addAction("sssd");
+        menu.exec(event->screenPos());
+    }
+}
+
 void PaintScene::setFlag(EActionToDo mode){
     flag = mode;
 }
@@ -136,4 +153,12 @@ void PaintScene::deleteMiniNodes(){
     a->prepareUpdate();
     a->update();
     currMininode = nullptr;
+}
+
+void PaintScene::slot_color(){
+    if(selectedNodeForPopupMenu){
+        selectedNodeForPopupMenu->setColor(QColorDialog::getColor(Qt::darkGreen));
+    }else if(selectedArrowForPopupMenu){
+        selectedArrowForPopupMenu->setColor(QColorDialog::getColor(Qt::darkYellow));
+    }
 }

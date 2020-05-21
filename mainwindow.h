@@ -37,5 +37,6 @@ private slots:
     void on_actionArrow_triggered();
     void on_actionNew_Graph_triggered();
     void tab_changes(int index);
+    void tab_close(int index);
 };
 #endif // MAINWINDOW_H

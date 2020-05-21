@@ -18,7 +18,8 @@ public:
     explicit PaintScene(QObject* parent = 0);
     ~PaintScene(){}
     void setFlag(EActionToDo);
-
+public slots:
+    void slot_color();
 private:
     bool bDrawArrow;
     Node *firstNodeOfArrow;
@@ -27,11 +28,14 @@ private:
     Mininode *two;
     Mininode *currMininode;
     EActionToDo flag;
-    void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
-    void mousePressEvent(QGraphicsSceneMouseEvent *event);
-    void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
+    void mouseMoveEvent(QGraphicsSceneMouseEvent *event)override;
+    void mousePressEvent(QGraphicsSceneMouseEvent *event)override;
+    void mouseReleaseEvent(QGraphicsSceneMouseEvent *event)override;
+    void contextMenuEvent(QGraphicsSceneContextMenuEvent *event) override;
     void deleteMiniNodes();
     QGraphicsItem *selectedItem;
+    Node *selectedNodeForPopupMenu;
+    Arrow *selectedArrowForPopupMenu;
 };
 
 #endif // PAINTSCENE_H

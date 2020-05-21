@@ -16,6 +16,7 @@ public:
     Node* getFirstNode();
     Node* getSecondNode();
     void prepareUpdate();
+    void setColor(const QColor color);
 public slots:
     void slotFirstMove();
     void slotSecondMove();
@@ -28,9 +29,10 @@ private:
     qreal calculateRotation();
     void setBetweenNodes();
     qreal calculateLength( qreal x,  qreal y)const;
+    QBrush brush;
+    QPen pen;
 
     int type() const override;
-    void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
 };
 
 #endif // ARROW_H

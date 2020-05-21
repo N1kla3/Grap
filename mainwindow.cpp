@@ -16,7 +16,9 @@ MainWindow::MainWindow(QWidget *parent)
 
     tabber->insertTab(1, ui->graphicsView, "view");
     tabber->setTabsClosable(true);
+    tabber->setMovable(true);
     connect(tabber, &QTabWidget::tabBarClicked, this, &MainWindow::tab_changes);
+    connect(tabber, &QTabWidget::tabCloseRequested, this, &MainWindow::tab_close);
     //updatesEnabled(bool);
     tabber->show();
     timer = new QTimer();
@@ -107,4 +109,9 @@ void MainWindow::on_actionNew_Graph_triggered()
 
 void MainWindow::tab_changes(int index){
     on_actionSelect_triggered();
+    Q_UNUSED(index);
+}
+
+void MainWindow::tab_close(int index){
+    tabber->removeTab(index);
 }

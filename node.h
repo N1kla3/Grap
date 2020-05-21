@@ -2,6 +2,8 @@
 #define NODE_H
 #include <QGraphicsItem>
 #include <QObject>
+#include <QBrush>
+#include <QPen>
 
 class Node : public QObject,public QGraphicsItem
 {
@@ -12,9 +14,12 @@ public:
     enum{Type = UserType + 2 };
     QRectF boundingRect() const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)override;
+    void setColor(const QColor color);
 signals:
     void moved();
 private:
+    QBrush brush;
+    QPen pen;
     const int ELLIPSE_SIZE = 30;
     int type() const override;
 };
