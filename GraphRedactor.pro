@@ -17,6 +17,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     arrow.cpp \
+    graph.cpp \
     main.cpp \
     mainwindow.cpp \
     mininode.cpp \
@@ -25,6 +26,7 @@ SOURCES += \
 
 HEADERS += \
     arrow.h \
+    graph.h \
     mainwindow.h \
     mininode.h \
     node.h \

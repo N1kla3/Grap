@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <paintscene.h>
+#include "graph.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -25,9 +26,7 @@ private:
     PaintScene *scene;
 
 private:
-    /* Переопределяем событие изменения размера окна
-     * для пересчёта размеров графической сцены
-     * */
+    Graph *currentGraph;
     void resizeEvent(QResizeEvent * event);
 
 private slots:

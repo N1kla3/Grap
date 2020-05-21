@@ -57,8 +57,10 @@ void MainWindow::on_actionSelect_triggered()
         }
     }
     QGraphicsView *view = qobject_cast<QGraphicsView*>(tabber->currentWidget());
-    PaintScene *currScene = qobject_cast<PaintScene*>(view->scene());
-    currScene->setFlag(SELECTION);
+    if(view){
+        PaintScene *currScene = qobject_cast<PaintScene*>(view->scene());
+        currScene->setFlag(SELECTION);
+    }
 }
 
 void MainWindow::on_actionNode_triggered()
@@ -71,8 +73,11 @@ void MainWindow::on_actionNode_triggered()
         }
     }
     QGraphicsView *view = qobject_cast<QGraphicsView*>(tabber->currentWidget());
-    PaintScene *currScene = qobject_cast<PaintScene*>(view->scene());
-    currScene->setFlag(CREATE_NODE);
+    if(view){
+        PaintScene *currScene = qobject_cast<PaintScene*>(view->scene());
+        currScene->setFlag(CREATE_NODE);
+    }
+
 }
 
 void MainWindow::on_actionArrow_triggered()
@@ -85,8 +90,10 @@ void MainWindow::on_actionArrow_triggered()
         }
     }
     QGraphicsView *view = qobject_cast<QGraphicsView*>(tabber->currentWidget());
-    PaintScene *currScene = qobject_cast<PaintScene*>(view->scene());
-    currScene->setFlag(CREATE_ARROW);
+    if(view){
+        PaintScene *currScene = qobject_cast<PaintScene*>(view->scene());
+        currScene->setFlag(CREATE_ARROW);
+    }
 }
 
 void MainWindow::on_actionNew_Graph_triggered()
