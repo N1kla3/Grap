@@ -20,6 +20,8 @@ public:
     void setFlag(EActionToDo);
 public slots:
     void slot_color();
+    void slot_delete();
+    void slot_delete_arrow(Arrow *arrow);
 private:
     bool bDrawArrow;
     Node *firstNodeOfArrow;

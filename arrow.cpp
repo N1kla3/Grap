@@ -87,6 +87,10 @@ void Arrow::slotSecondMove(){
     update();
 }
 
+void Arrow::slot_delete(){
+    delete_from_node(this);
+}
+
 int Arrow::type() const{
     return Type;
 }
@@ -95,7 +99,11 @@ void Arrow::setFirstNode(Node *node){
     if(first != nullptr){
         disconnect(this->first, &Node::moved, this, &Arrow::slotFirstMove);
     }
+    if(first != nullptr){
+        disconnect(this->first, &Node::deleted, this, &Arrow::slot_delete);
+    }
     this->first = node;
+    if(node)connect(this->first, &Node::deleted, this, &Arrow::slot_delete);
     if(node)connect(this->first, &Node::moved, this, &Arrow::slotFirstMove);
 }
 
@@ -103,7 +111,11 @@ void Arrow::setSecondNode(Node *node){
     if(second != nullptr){
         disconnect(this->second, &Node::moved, this, &Arrow::slotSecondMove);
     }
+    if(second != nullptr){
+        disconnect(this->second, &Node::deleted, this, &Arrow::slot_delete);
+    }
     this->second = node;
+    if(node)connect(this->second, &Node::deleted, this, &Arrow::slot_delete);
     if(node)connect(this->second, &Node::moved, this, &Arrow::slotSecondMove);
 }
 

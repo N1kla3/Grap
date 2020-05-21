@@ -17,6 +17,7 @@ public:
     void setColor(const QColor color);
 signals:
     void moved();
+    void deleted();
 private:
     QBrush brush;
     QPen pen;

@@ -88,6 +88,7 @@ void PaintScene::mousePressEvent(QGraphicsSceneMouseEvent *event){
                 Arrow *arrow = new Arrow();
                 arrow->initBetweenNodes(firstNodeOfArrow, node);
                 this->addItem(arrow);
+                connect(arrow, &Arrow::delete_from_node, this, &PaintScene::slot_delete_arrow);
             }
             bDrawArrow = false;
         }
@@ -116,6 +117,7 @@ void PaintScene::contextMenuEvent(QGraphicsSceneContextMenuEvent *event){
     if(selectedItemForPopupMenu){
         QMenu menu(event->widget());
         menu.addAction("Change color", this, &PaintScene::slot_color);
+        menu.addAction("Delete", this, &PaintScene::slot_delete);
         if(selectedNodeForPopupMenu)
             menu.addAction("sssd");
         menu.exec(event->screenPos());
@@ -161,4 +163,25 @@ void PaintScene::slot_color(){
     }else if(selectedArrowForPopupMenu){
         selectedArrowForPopupMenu->setColor(QColorDialog::getColor(Qt::darkYellow));
     }
+}
+
+void PaintScene::slot_delete(){
+    if(selectedNodeForPopupMenu){
+        selectedNodeForPopupMenu->deleted();
+        removeItem(selectedNodeForPopupMenu);
+        delete selectedNodeForPopupMenu;
+        selectedNodeForPopupMenu = nullptr;
+        selectedItem = nullptr;
+    }else if(selectedArrowForPopupMenu){
+        deleteMiniNodes();
+        removeItem(selectedArrowForPopupMenu);
+        delete selectedArrowForPopupMenu;
+        selectedArrowForPopupMenu = nullptr;
+        selectedItem = nullptr;
+    }
+}
+
+void PaintScene::slot_delete_arrow(Arrow *arrow){
+    removeItem(arrow);
+    delete arrow;
 }
