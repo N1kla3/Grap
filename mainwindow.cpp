@@ -122,3 +122,42 @@ void MainWindow::tab_changes(int index){
 void MainWindow::tab_close(int index){
     tabber->removeTab(index);
 }
+
+void MainWindow::createGraph(){
+    QGraphicsView *view = qobject_cast<QGraphicsView*>(tabber->currentWidget());
+    if(view){
+        int i = 0;
+        QList<QGraphicsItem*> items = view->items();
+        for(QGraphicsItem *item : items){
+            Node *node = qgraphicsitem_cast<Node*>(item);
+            if(node){
+                node->setIndex(i);
+                ++i;
+            }
+        }
+        currentGraph = new Graph(i+1);
+        for(QGraphicsItem *item : items){
+            Node *node = qgraphicsitem_cast<Node*>(item);
+            Arrow *arrow = qgraphicsitem_cast<Arrow*>(item);
+            if(node){
+                currentGraph->addNode(node);
+            }else if(arrow){
+                currentGraph->addOrientedArrow(arrow->getFirstNode()->getIndex(), arrow->getSecondNode()->getIndex());
+            }
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
