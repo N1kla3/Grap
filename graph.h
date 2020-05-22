@@ -11,8 +11,11 @@ public:
     void addNode(Node *node);
     void addOrientedArrow(const int first, const int second);
     void addUnOrientedArrow(const int first, const int second);
+public slots:
+    void slot_degree(Node *node);
 private:
     int size;
+    int arrows;
     QString name;
     QVector<Node*> nodes;
     QVector<QVector<int>> matrix;
