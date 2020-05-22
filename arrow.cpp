@@ -17,7 +17,7 @@ Arrow::Arrow(QObject *parent):
 }
 
 void Arrow::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
-    painter->setPen(pen);
+    painter->setPen(Qt::black);
     painter->setBrush(brush);
     painter->drawRect(20, 3, length-45, 4);
 

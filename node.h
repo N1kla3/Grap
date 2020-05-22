@@ -22,7 +22,7 @@ signals:
     void moved();
     void deleted();
 private:
-    QString name;
+    QGraphicsTextItem *name;
     int index;
     QBrush brush;
     QPen pen;

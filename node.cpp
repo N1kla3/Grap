@@ -9,8 +9,9 @@ Node::Node(QObject *parent):
     brush(Qt::darkGreen),
     pen(Qt::darkGreen)
 {
-    name = "";
     setZValue(2);
+    name = new QGraphicsTextItem(this);
+    name->setPos(-10,10);
 }
 
 QRectF Node::boundingRect() const{
@@ -18,10 +19,9 @@ QRectF Node::boundingRect() const{
 }
 
 void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
-    painter->setPen(pen);
+    painter->setPen(Qt::black);
     painter->setBrush(brush);
     painter->drawEllipse(-15, -15, ELLIPSE_SIZE, ELLIPSE_SIZE);
-    painter->drawText(0, 15, name);
     Q_UNUSED(option);
     Q_UNUSED(widget);
 }
@@ -45,6 +45,6 @@ void Node::setIndex(int index){
 }
 
 void Node::setName(const QString name){
-    this->name = name;
+    this->name->setPlainText(name);
     update();
 }

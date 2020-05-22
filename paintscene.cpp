@@ -191,5 +191,7 @@ void PaintScene::slot_delete_arrow(Arrow *arrow){
 
 void PaintScene::slot_set_name(){
     bool ok;
-    selectedNodeForPopupMenu->setName(QInputDialog::getText(nullptr, "add", "set"));
+    selectedNodeForPopupMenu->setName(QInputDialog::getText(nullptr, tr("Set Name"),
+                                                            tr("Enter name:"), QLineEdit::Normal,
+                                                            "name", &ok));
 }
