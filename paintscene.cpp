@@ -2,6 +2,7 @@
 #include <arrow.h>
 #include<QMenu>
 #include<QColorDialog>
+#include<QInputDialog>
 
 PaintScene::PaintScene(QObject* parent):
     QGraphicsScene(parent),
@@ -118,8 +119,10 @@ void PaintScene::contextMenuEvent(QGraphicsSceneContextMenuEvent *event){
         QMenu menu(event->widget());
         menu.addAction("Change color", this, &PaintScene::slot_color);
         menu.addAction("Delete", this, &PaintScene::slot_delete);
-        if(selectedNodeForPopupMenu)
+        if(selectedNodeForPopupMenu){
             menu.addAction("sssd");
+            menu.addAction("Set Name", this, &PaintScene::slot_set_name);
+        }
         menu.exec(event->screenPos());
     }
 }
@@ -184,4 +187,9 @@ void PaintScene::slot_delete(){
 void PaintScene::slot_delete_arrow(Arrow *arrow){
     removeItem(arrow);
     delete arrow;
+}
+
+void PaintScene::slot_set_name(){
+    bool ok;
+    selectedNodeForPopupMenu->setName(QInputDialog::getText(nullptr, "add", "set"));
 }

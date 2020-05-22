@@ -15,10 +15,15 @@ public:
     QRectF boundingRect() const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)override;
     void setColor(const QColor color);
+    void setIndex(int index);
+    void setName(const QString name);
+    int getIndex();
 signals:
     void moved();
     void deleted();
 private:
+    QString name;
+    int index;
     QBrush brush;
     QPen pen;
     const int ELLIPSE_SIZE = 30;

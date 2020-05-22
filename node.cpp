@@ -9,6 +9,7 @@ Node::Node(QObject *parent):
     brush(Qt::darkGreen),
     pen(Qt::darkGreen)
 {
+    name = "";
     setZValue(2);
 }
 
@@ -20,6 +21,7 @@ void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWid
     painter->setPen(pen);
     painter->setBrush(brush);
     painter->drawEllipse(-15, -15, ELLIPSE_SIZE, ELLIPSE_SIZE);
+    painter->drawText(0, 15, name);
     Q_UNUSED(option);
     Q_UNUSED(widget);
 }
@@ -31,5 +33,18 @@ int Node::type()const{
 void Node::setColor(const QColor color){
     pen.setColor(color);
     brush.setColor(color);
+    update();
+}
+
+int Node::getIndex(){
+    return index;
+}
+
+void Node::setIndex(int index){
+    this->index = index;
+}
+
+void Node::setName(const QString name){
+    this->name = name;
     update();
 }

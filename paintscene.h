@@ -22,6 +22,7 @@ public slots:
     void slot_color();
     void slot_delete();
     void slot_delete_arrow(Arrow *arrow);
+    void slot_set_name();
 private:
     bool bDrawArrow;
     Node *firstNodeOfArrow;
