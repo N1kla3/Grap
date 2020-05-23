@@ -6,7 +6,7 @@ class Mininode : public Node
 {
     Q_OBJECT
 public:
-    enum{Type = UserType + 3};
+    enum{Type = UserType + 2};
     Mininode(QObject *parent = 0);
     QRectF boundingRect() const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;

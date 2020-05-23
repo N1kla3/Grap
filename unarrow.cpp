@@ -10,7 +10,7 @@ UnArrow::UnArrow(QObject *parent):
 void UnArrow::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
     painter->setPen(Qt::black);
     painter->setBrush(brush);
-    painter->drawRect(20, 3, length-45, 4);
+    painter->drawRect(25, 3, length-50, 4);
 
     QPolygon polygon;
     polygon << QPoint(length-30,0) << QPoint(length-30,10) << QPoint(length-20,5);
@@ -21,4 +21,8 @@ void UnArrow::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
     painter->drawPolygon(polygon2);
     Q_UNUSED(option);
     Q_UNUSED(widget);
+}
+
+int UnArrow::type() const{
+    return Type;
 }

@@ -6,6 +6,7 @@
 #include <QDir>
 #include <QTextStream>
 #include <QRandomGenerator>
+#include <unarrow.h>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -146,8 +147,11 @@ void MainWindow::createGraph(){
         for(QGraphicsItem *item : items){
             Node *node = qgraphicsitem_cast<Node*>(item);
             Arrow *arrow = qgraphicsitem_cast<Arrow*>(item);
+            UnArrow *unarrow = qgraphicsitem_cast<UnArrow*>(item);
             if(node){
                 currentGraph->addNode(node);
+            }else if(unarrow){
+                currentGraph->addUnOrientedArrow(unarrow->getFirstNode()->getIndex(), unarrow->getSecondNode()->getIndex());
             }else if(arrow){
                 currentGraph->addOrientedArrow(arrow->getFirstNode()->getIndex(), arrow->getSecondNode()->getIndex());
             }
@@ -166,6 +170,13 @@ void MainWindow::on_actionOpen_triggered()
 {
     QRandomGenerator generator;
 
+    QString fileName = QFileDialog::getOpenFileName(this, "open", ".grap", tr("Grap file (*.grap)"));
+
+    QFile file(fileName);
+    if(!file.exists())return;
+    QString graphName = "";
+    file.open(QIODevice::ReadOnly);
+
     PaintScene *scene = new PaintScene();
     scene->setFlag(SELECTION);
     QGraphicsView *view = new QGraphicsView();
@@ -173,10 +184,8 @@ void MainWindow::on_actionOpen_triggered()
     view->resize(this->width(), this->height());
     view->scene()->setSceneRect(0,0, this->width(), this->height());
 
-    QString fileName = QFileDialog::getOpenFileName(this, "open", ".grap", tr("Grap file (*.grap)"));
-    QFile file(fileName);
-    QString graphName = "";
-    file.open(QIODevice::ReadOnly);
+
+
     if(file.isOpen()){
 
         int nameSize;
@@ -217,7 +226,10 @@ void MainWindow::on_actionOpen_triggered()
             for(int j = 0; j < size; ++j){
                 if(matrix[i][j]){
                     if(matrix[j][i]){
-                        //unoriented arrow here
+                        UnArrow *arrow = new UnArrow();
+                        arrow->initBetweenNodes(nodes[i], nodes[j]);
+                        connect(arrow, &Arrow::delete_from_node, scene, &PaintScene::slot_delete_arrow);
+                        scene->addItem(arrow);
                         matrix[j][i] = 0;
                     }else{
                         Arrow *arrow = new Arrow();

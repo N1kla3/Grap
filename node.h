@@ -11,7 +11,7 @@ class Node : public QObject,public QGraphicsItem
 public:
     explicit Node(QObject *parent = 0);
     ~Node(){}
-    enum{Type = UserType + 2 };
+    enum{Type = UserType + 1 };
     QRectF boundingRect() const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)override;
     void setColor(const QColor color);

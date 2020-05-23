@@ -7,7 +7,7 @@ class Arrow : public QObject, public QGraphicsItem
     Q_OBJECT
 public:
     explicit Arrow(QObject *parent = 0);
-    enum { Type = UserType + 1 };
+    enum { Type = UserType + 3 };
     QRectF boundingRect() const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
     void initBetweenNodes(Node *first, Node *second);

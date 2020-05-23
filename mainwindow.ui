@@ -116,8 +116,15 @@
    </property>
   </action>
   <action name="actionUnOriented">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="resource.qrc">
+     <normaloff>:/Pictures/graph/images.png</normaloff>:/Pictures/graph/images.png</iconset>
+   </property>
    <property name="text">
-    <string>UnOriented</string>
+    <string>UnOri</string>
    </property>
   </action>
   <action name="actionSelect">
@@ -152,6 +159,10 @@
   <action name="actionArrow">
    <property name="checkable">
     <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="resource.qrc">
+     <normaloff>:/Pictures/graph/arrow.png</normaloff>:/Pictures/graph/arrow.png</iconset>
    </property>
    <property name="text">
     <string>arrow</string>
@@ -196,11 +207,17 @@
    <property name="checkable">
     <bool>true</bool>
    </property>
+   <property name="icon">
+    <iconset resource="resource.qrc">
+     <normaloff>:/Pictures/graph/images.png</normaloff>:/Pictures/graph/images.png</iconset>
+   </property>
    <property name="text">
     <string>unoriented</string>
    </property>
   </action>
  </widget>
- <resources/>
+ <resources>
+  <include location="resource.qrc"/>
+ </resources>
  <connections/>
 </ui>
