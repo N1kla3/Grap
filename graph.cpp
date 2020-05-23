@@ -53,3 +53,11 @@ void Graph::writeFile(const QString fileName){
     }
     file.close();
 }
+
+int Graph::matrixAt(const int i, const int j){
+    return matrix[i][j];
+}
+
+void Graph::setMatrixAt(const int i, const int j, const int num){
+    matrix[i][j] = num;
+}

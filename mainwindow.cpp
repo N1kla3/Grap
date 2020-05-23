@@ -190,8 +190,10 @@ void MainWindow::on_actionOpen_triggered()
         }
         int size = 0;
         input >> size;
+        QVector<Node*> nodes(size);
         for(int i = 0; i < size; ++i){
             Node *node = new Node();
+            nodes[i] = node;
             int strSize;
             QString nodeName = "";
             input >> strSize;
@@ -204,6 +206,27 @@ void MainWindow::on_actionOpen_triggered()
             scene->addItem(node);
             node->setName(nodeName);
 
+        }
+        QVector<QVector<int>> matrix(size, QVector<int>(size, 0));
+        for(int i = 0; i < size; ++i){
+            for(int j = 0; j < size; ++j){
+                input >> matrix[i][j];
+            }
+        }
+        for(int i = 0; i < size; ++i){
+            for(int j = 0; j < size; ++j){
+                if(matrix[i][j]){
+                    if(matrix[j][i]){
+                        //unoriented arrow here
+                        matrix[j][i] = 0;
+                    }else{
+                        Arrow *arrow = new Arrow();
+                        arrow->initBetweenNodes(nodes[i], nodes[j]);
+                        connect(arrow, &Arrow::delete_from_node, scene, &PaintScene::slot_delete_arrow);
+                        scene->addItem(arrow);
+                    }
+                }
+            }
         }
     }
     file.close();
