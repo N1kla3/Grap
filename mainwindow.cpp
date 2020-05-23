@@ -34,9 +34,9 @@ void MainWindow::slotTimer()
 {
     timer->stop();
     QGraphicsView *view = qobject_cast<QGraphicsView*>(tabber->currentWidget());
-    view->resize(this->width(), this->height());
-    view->scene()->setSceneRect(0,0, this->width(), this->height());
-    tabber->resize(this->width(), this->height());
+    view->resize(this->width()-20, this->height()-100);
+    view->scene()->setSceneRect(0,0, this->width()-20, this->height()-100);
+    tabber->resize(this->width(), this->height()-60);
 }
 
 void MainWindow::resizeEvent(QResizeEvent *event)
@@ -112,8 +112,12 @@ void MainWindow::on_actionNew_Graph_triggered()
         scene->setFlag(SELECTION);
         QGraphicsView *view = new QGraphicsView();
         view->setScene(scene);
-        view->resize(this->width(), this->height());
-        view->scene()->setSceneRect(0,0, this->width(), this->height());
+        view->resize(this->width()-20, this->height()-100);
+        view->setRenderHint(QPainter::Antialiasing);
+        view->setRenderHint(QPainter::TextAntialiasing);
+        view->setRenderHint(QPainter::SmoothPixmapTransform);
+        view->setRenderHint(QPainter::HighQualityAntialiasing);
+        view->scene()->setSceneRect(0,0, this->width()-20, this->height()-100);
         tabber->addTab(view, text);
     }
 }
@@ -187,9 +191,13 @@ void MainWindow::on_actionOpen_triggered()
     PaintScene *scene = new PaintScene();
     scene->setFlag(SELECTION);
     QGraphicsView *view = new QGraphicsView();
+    view->setRenderHint(QPainter::Antialiasing);
+    view->setRenderHint(QPainter::TextAntialiasing);
+    view->setRenderHint(QPainter::SmoothPixmapTransform);
+    view->setRenderHint(QPainter::HighQualityAntialiasing);
     view->setScene(scene);
-    view->resize(this->width(), this->height());
-    view->scene()->setSceneRect(0,0, this->width(), this->height());
+    view->resize(this->width()-20, this->height()-100);
+    view->scene()->setSceneRect(0,0, this->width()-20, this->height()-100);
 
 
 
