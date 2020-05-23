@@ -19,6 +19,8 @@ PaintScene::PaintScene(QObject* parent):
 }
 
 void PaintScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event){
+    if(event->scenePos().x() < 0 || event->scenePos().x() > width())return;
+    if(event->scenePos().y() < 0 || event->scenePos().y() > height())return;
     if(currMininode){
         currMininode->setPos(event->scenePos());
         currMininode->moved();

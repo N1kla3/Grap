@@ -36,6 +36,7 @@ QString Graph::getName(){
 
 void Graph::writeFile(const QString fileName){
     QFile file(fileName);
+    if(!file.exists())return;
     file.open( QIODevice::WriteOnly );
     if(file.isOpen()){
         QTextStream outStream(&file);
