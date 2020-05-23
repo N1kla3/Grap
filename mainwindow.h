@@ -38,5 +38,6 @@ private slots:
     void tab_changes(int index);
     void tab_close(int index);
     void on_actionSave_triggered();
+    void on_actionOpen_triggered();
 };
 #endif // MAINWINDOW_H

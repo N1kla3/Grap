@@ -13,7 +13,7 @@ public:
     void addUnOrientedArrow(const int first, const int second);
     QString getName();
     void setName(const QString name);
-    void writwFile(const QString fileName);
+    void writeFile(const QString fileName);
 public slots:
     void slot_degree(Node *node);
 private:

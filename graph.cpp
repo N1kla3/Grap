@@ -34,20 +34,20 @@ QString Graph::getName(){
     return name;
 }
 
-void Graph::writwFile(const QString fileName){
+void Graph::writeFile(const QString fileName){
     QFile file(fileName);
     file.open( QIODevice::WriteOnly );
     if(file.isOpen()){
         QTextStream outStream(&file);
-        outStream << name << "\n";
+        outStream << name.size() << " " << name << "\n";
         outStream << size << "\n";
         for(int i = 0; i < size; ++i){
-            outStream << nodes[i]->getName().size();
-            outStream << nodes[i]->getName();
+            outStream << nodes[i]->getName().size() << " ";
+            outStream << nodes[i]->getName() << "\n";
         }
         for(int i = 0; i < size; ++i){
             for(int j = 0; j < size; ++j){
-                outStream << matrix[i][j];
+                outStream << matrix[i][j] << " ";
             }
         }
     }

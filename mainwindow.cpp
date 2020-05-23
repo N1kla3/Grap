@@ -4,6 +4,8 @@
 #include <QInputDialog>
 #include <QFileDialog>
 #include <QDir>
+#include <QTextStream>
+#include <QRandomGenerator>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -136,7 +138,11 @@ void MainWindow::createGraph(){
                 ++i;
             }
         }
+
+        int index = tabber->currentIndex();
+        QString currentTabText = tabber->tabText(index);
         currentGraph = new Graph(i);
+        currentGraph->setName(currentTabText);
         for(QGraphicsItem *item : items){
             Node *node = qgraphicsitem_cast<Node*>(item);
             Arrow *arrow = qgraphicsitem_cast<Arrow*>(item);
@@ -151,7 +157,55 @@ void MainWindow::createGraph(){
 
 void MainWindow::on_actionSave_triggered()
 {
-    QString fileName = QFileDialog::getSaveFileName(this, "save", ".txt.grap", tr("Graph file (*.txt.grap)"));
+    QString fileName = QFileDialog::getSaveFileName(this, "save", ".grap", tr("Grap file (*.grap)"));
     createGraph();
-    currentGraph->writwFile(fileName);
+    currentGraph->writeFile(fileName);
+}
+
+void MainWindow::on_actionOpen_triggered()
+{
+    QRandomGenerator generator;
+
+    PaintScene *scene = new PaintScene();
+    scene->setFlag(SELECTION);
+    QGraphicsView *view = new QGraphicsView();
+    view->setScene(scene);
+    view->resize(this->width(), this->height());
+    view->scene()->setSceneRect(0,0, this->width(), this->height());
+
+    QString fileName = QFileDialog::getOpenFileName(this, "open", ".grap", tr("Grap file (*.grap)"));
+    QFile file(fileName);
+    QString graphName = "";
+    file.open(QIODevice::ReadOnly);
+    if(file.isOpen()){
+
+        int nameSize;
+        QTextStream input(&file);
+        input >> nameSize;
+        QChar a;
+        input >> a;
+        for(int i = 0; i < nameSize; ++i){
+            input >> a;
+            graphName.append(a);
+        }
+        int size = 0;
+        input >> size;
+        for(int i = 0; i < size; ++i){
+            Node *node = new Node();
+            int strSize;
+            QString nodeName = "";
+            input >> strSize;
+            input >> a;
+            for(int j = 0; j < strSize; ++j){
+                input >> a;
+                nodeName.append(a);
+            }
+            node->setPos(generator.bounded(view->width()), generator.bounded(view->height()));
+            scene->addItem(node);
+            node->setName(nodeName);
+
+        }
+    }
+    file.close();
+    tabber->addTab(view, graphName);
 }
