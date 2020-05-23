@@ -49,14 +49,16 @@ qreal Arrow::calculateRotation() {
         result = qFabs(x) / length;
     }
     res = (qAsin(result)*(180/M_PI));
-    if(x > 0 && y < 0){
+    if(x >= 0 && y < 0){
         res = 90 + res;
-    }else if (x >= 0 && y >= 0){
+    }else if (x > 0 && y >= 0){
         res += 180;
-    }else if(x < 0 && y > 0){
+    }else if(x < 0 && y >= 0){
         res = 360 - res;
-    }else if (x <= 0 && y <= 0){
+    }else if (x < 0 && y <= 0){
         res = 90 - res;
+    }else if(x == 0 && y > 0){
+        res -= 90;
     }
     return res;
 }
