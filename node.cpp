@@ -48,3 +48,7 @@ void Node::setName(const QString name){
     this->name->setPlainText(name);
     update();
 }
+
+QString Node::getName(){
+    return name->toPlainText();
+}

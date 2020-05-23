@@ -17,6 +17,7 @@ public:
     void setColor(const QColor color);
     void setIndex(int index);
     void setName(const QString name);
+    QString getName();
     int getIndex();
 signals:
     void moved();

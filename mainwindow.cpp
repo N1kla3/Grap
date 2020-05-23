@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include <QTabWidget>
 #include <QInputDialog>
+#include <QFileDialog>
 #include <QDir>
 
 MainWindow::MainWindow(QWidget *parent)
@@ -135,7 +136,7 @@ void MainWindow::createGraph(){
                 ++i;
             }
         }
-        currentGraph = new Graph(i+1);
+        currentGraph = new Graph(i);
         for(QGraphicsItem *item : items){
             Node *node = qgraphicsitem_cast<Node*>(item);
             Arrow *arrow = qgraphicsitem_cast<Arrow*>(item);
@@ -148,16 +149,9 @@ void MainWindow::createGraph(){
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+void MainWindow::on_actionSave_triggered()
+{
+    QString fileName = QFileDialog::getSaveFileName(this, "save", ".txt.grap", tr("Graph file (*.txt.grap)"));
+    createGraph();
+    currentGraph->writwFile(fileName);
+}
