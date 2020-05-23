@@ -140,6 +140,7 @@ void PaintScene::contextMenuEvent(QGraphicsSceneContextMenuEvent *event){
     QGraphicsItem *selectedItemForPopupMenu = itemAt(event->scenePos(), QTransform());
     selectedNodeForPopupMenu = qgraphicsitem_cast<Node*>(selectedItemForPopupMenu);
     selectedArrowForPopupMenu = qgraphicsitem_cast<Arrow*>(selectedItemForPopupMenu);
+    selectedItem = nullptr;
     if(selectedItemForPopupMenu){
         QMenu menu(event->widget());
         menu.addAction("Change color", this, &PaintScene::slot_color);
