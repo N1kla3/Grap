@@ -123,8 +123,15 @@ void MainWindow::tab_changes(int index){
     Q_UNUSED(index);
 }
 
-void MainWindow::tab_close(int index){
+void MainWindow::tab_close(int index){    
+    QGraphicsView *view = qobject_cast<QGraphicsView*>(tabber->widget(index));
     tabber->removeTab(index);
+    auto scene = view->scene();
+    for(QGraphicsItem *i : scene->items()){
+        delete i;
+    }
+    scene->deleteLater();
+    view->deleteLater();
 }
 
 void MainWindow::createGraph(){
