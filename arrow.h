@@ -23,7 +23,7 @@ public slots:
     void slotFirstMove();
     void slotSecondMove();
     void slot_delete();
-private:
+protected:
     int width;
     int height;
     qreal length;

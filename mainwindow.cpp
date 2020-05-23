@@ -232,3 +232,19 @@ void MainWindow::on_actionOpen_triggered()
     file.close();
     tabber->addTab(view, graphName);
 }
+
+void MainWindow::on_actionunoriented_triggered()
+{
+    for(auto action : ui->toolBar->actions()){
+        if(action->objectName() != "actionunoriented")
+            action->setChecked(false);
+        else{
+            action->setChecked(true);
+        }
+    }
+    QGraphicsView *view = qobject_cast<QGraphicsView*>(tabber->currentWidget());
+    if(view){
+        PaintScene *currScene = qobject_cast<PaintScene*>(view->scene());
+        currScene->setFlag(CREATE_UNORIENTED);
+    }
+}

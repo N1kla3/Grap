@@ -1,5 +1,5 @@
 #include "paintscene.h"
-#include <arrow.h>
+#include <unarrow.h>
 #include<QMenu>
 #include<QColorDialog>
 #include<QInputDialog>
@@ -7,6 +7,7 @@
 PaintScene::PaintScene(QObject* parent):
     QGraphicsScene(parent),
     bDrawArrow(false),
+    bUnOrient(false),
     flag(SELECTION),
     selectedItem(nullptr)
 {
@@ -77,6 +78,7 @@ void PaintScene::mousePressEvent(QGraphicsSceneMouseEvent *event){
 
     case CREATE_ARROW:
     {
+        bUnOrient = false;
         if(!bDrawArrow){
             Node *node = qgraphicsitem_cast<Node*>(itemAt(event->scenePos(), QTransform()));
             if(node){
@@ -92,6 +94,27 @@ void PaintScene::mousePressEvent(QGraphicsSceneMouseEvent *event){
                 connect(arrow, &Arrow::delete_from_node, this, &PaintScene::slot_delete_arrow);
             }
             bDrawArrow = false;
+        }
+        break;
+    }
+    case CREATE_UNORIENTED:
+    {
+        bDrawArrow = false;
+        if(!bUnOrient){
+            Node *node = qgraphicsitem_cast<Node*>(itemAt(event->scenePos(), QTransform()));
+            if(node){
+                firstNodeOfArrow = node;
+                bUnOrient = true;
+            }
+        }else{
+            Node *node = qgraphicsitem_cast<Node*>(itemAt(event->scenePos(), QTransform()));
+            if(node){
+                UnArrow *arrow = new UnArrow();
+                arrow->initBetweenNodes(firstNodeOfArrow, node);
+                this->addItem(arrow);
+                connect(arrow, &Arrow::delete_from_node, this, &PaintScene::slot_delete_arrow);
+            }
+            bUnOrient = false;
         }
         break;
     }

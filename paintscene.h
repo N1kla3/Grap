@@ -9,7 +9,8 @@
 enum EActionToDo{
     SELECTION,
     CREATE_NODE,
-    CREATE_ARROW
+    CREATE_ARROW,
+    CREATE_UNORIENTED
 };
 class PaintScene : public QGraphicsScene
 {
@@ -25,6 +26,7 @@ public slots:
     void slot_set_name();
 private:
     bool bDrawArrow;
+    bool bUnOrient;
     Node *firstNodeOfArrow;
     Node *secondNodeOfArrow;
     Mininode *one;

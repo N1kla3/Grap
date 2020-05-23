@@ -22,7 +22,8 @@ SOURCES += \
     mainwindow.cpp \
     mininode.cpp \
     node.cpp \
-    paintscene.cpp
+    paintscene.cpp \
+    unarrow.cpp
 
 HEADERS += \
     arrow.h \
@@ -30,7 +31,8 @@ HEADERS += \
     mainwindow.h \
     mininode.h \
     node.h \
-    paintscene.h
+    paintscene.h \
+    unarrow.h
 
 FORMS += \
     mainwindow.ui

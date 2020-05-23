@@ -93,6 +93,7 @@
    <addaction name="actionSelect"/>
    <addaction name="actionNode"/>
    <addaction name="actionArrow"/>
+   <addaction name="actionunoriented"/>
   </widget>
   <action name="actionOpen">
    <property name="text">
@@ -189,6 +190,14 @@
   <action name="actionDiametr_Radius">
    <property name="text">
     <string>Diametr, Radius</string>
+   </property>
+  </action>
+  <action name="actionunoriented">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>unoriented</string>
    </property>
   </action>
  </widget>
