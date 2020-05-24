@@ -62,3 +62,11 @@ int Graph::matrixAt(const int i, const int j){
 void Graph::setMatrixAt(const int i, const int j, const int num){
     matrix[i][j] = num;
 }
+
+int Graph::getArrows(){
+    return arrows;
+}
+
+int Graph::getNodes(){
+    return size;
+}

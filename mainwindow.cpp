@@ -3,6 +3,7 @@
 #include <QTabWidget>
 #include <QInputDialog>
 #include <QFileDialog>
+#include <QMessageBox>
 #include <QDir>
 #include <QTextStream>
 #include <QRandomGenerator>
@@ -11,6 +12,7 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
+    , currentGraph(nullptr)
 {
     ui->setupUi(this);
     scene = new PaintScene();
@@ -273,5 +275,26 @@ void MainWindow::on_actionunoriented_triggered()
     if(view){
         PaintScene *currScene = qobject_cast<PaintScene*>(view->scene());
         currScene->setFlag(CREATE_UNORIENTED);
+    }
+}
+
+void MainWindow::on_action_triggered()
+{
+    if(tabber->currentWidget()){bool ok;
+        QString name = QInputDialog::getText(this, tr("Set Name"),tr("Enter name:"),
+                                             QLineEdit::Normal,"name", &ok);
+        if(ok)
+            tabber->setTabText(tabber->currentIndex(), name);
+    }
+}
+
+void MainWindow::on_actionItems_triggered()
+{
+    if(currentGraph)delete currentGraph;
+    if(tabber->currentWidget()){
+        createGraph();
+        QMessageBox::information(this, "Items of Graph", "vertices :"
+                                 +  QString::number(currentGraph->getNodes()) + "\narrows :"
+                                 + QString::number(currentGraph->getArrows()));
     }
 }

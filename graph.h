@@ -16,6 +16,8 @@ public:
     void writeFile(const QString fileName);
     int matrixAt(const int i, const int j);
     void setMatrixAt(const int i, const int j, const int num);
+    int getArrows();
+    int getNodes();
 public slots:
     void slot_degree(Node *node);
 private:
