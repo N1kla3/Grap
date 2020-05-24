@@ -43,5 +43,6 @@ private slots:
     void on_actionunoriented_triggered();
     void on_action_triggered();
     void on_actionItems_triggered();
+    void on_actionMatrix_triggered();
 };
 #endif // MAINWINDOW_H

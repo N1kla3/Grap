@@ -20,9 +20,13 @@ public:
     int getNodes();
     int getDegree();
     int getSpecDegree(Node *node);
+    QString getMatrix();
+    void dfs(int i);
+    QString isTree();
 public slots:
     void slot_degree(Node *node);
 private:
+    QVector<bool> check;
     int size;
     int arrows;
     QString name;

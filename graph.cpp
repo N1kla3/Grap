@@ -9,6 +9,7 @@ Graph::Graph(int size):
 {
     matrix = QVector<QVector<int>>(size, QVector<int>(size, 0));
     nodes = QVector<Node*>(size, nullptr);
+    check = QVector<bool>(size, false);
 }
 
 void Graph::addNode(Node *node){
@@ -103,3 +104,56 @@ int Graph::getSpecDegree(Node *node){
     }
     return res;
 }
+
+QString Graph::getMatrix(){
+    QString res = "";
+    QTextStream out(&res);
+    for(auto i : matrix){
+        out << "\n";
+        for(auto k : i){
+            out << k << " ";
+        }
+    }
+    return res;
+}
+
+void Graph::dfs(int i) {
+    bool inc = false;
+    if (check[i]) {
+    return;
+    }
+    check[i] = true;
+    for (int j = 0; j < size; ++j) {
+        if (matrix[i][j]) {
+            inc = true;
+            dfs(j);
+        }
+    }
+}
+
+QString Graph::isTree() {
+    int edges = 0;
+    for (int i = 0; i < size; ++i) {
+        for (int j = 0; j < size; ++j) {
+            if (matrix[i][j]) {
+                edges++;
+            }
+        }
+    }
+    if (edges != size - 1) {
+        return "False";
+    }
+    for(int index = 0; index < size; ++index){
+        dfs(index);
+        bool iscorrect = true;
+        for (int i = 0; i < size; ++i) {
+            if (!check[i]) {
+                iscorrect = false;
+            }
+        }
+        if(iscorrect)return "True";
+        check = QVector<bool>(size, false);
+    }
+    return "False";
+}
+

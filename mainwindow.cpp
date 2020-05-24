@@ -309,3 +309,13 @@ void MainWindow::slot_degree(Node *node){
                              + "\nFor selected :"
                              + QString::number(currentGraph->getSpecDegree(node)));
 }
+
+void MainWindow::on_actionMatrix_triggered()
+{
+    if(currentGraph)delete currentGraph;
+    createGraph();
+    QMessageBox::information(this, "Matrix", "Matrix :"
+                             +  currentGraph->getMatrix()
+                             + "\n\nIs a Tree :"
+                             + currentGraph->isTree());
+}
