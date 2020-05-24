@@ -70,3 +70,36 @@ int Graph::getArrows(){
 int Graph::getNodes(){
     return size;
 }
+
+int Graph::getDegree(){
+    int res = 0;
+    for(int index = 0; index < size; ++index){
+        for(int i = 0; i < size; ++i){
+            if(matrix[index][i] != 0){
+                ++res;
+            }
+            if(matrix[i][index] != 0){
+                if(matrix[index][i] == 0){
+                    ++res;
+                }
+            }
+        }
+    }
+    return res;
+}
+
+int Graph::getSpecDegree(Node *node){
+    int res = 0;
+    int index = node->getIndex();
+    for(int i = 0; i < size; ++i){
+        if(matrix[index][i] != 0){
+            ++res;
+        }
+        if(matrix[i][index] != 0){
+            if(matrix[index][i] == 0){
+                ++res;
+            }
+        }
+    }
+    return res;
+}

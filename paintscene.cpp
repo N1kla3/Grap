@@ -146,7 +146,9 @@ void PaintScene::contextMenuEvent(QGraphicsSceneContextMenuEvent *event){
         menu.addAction("Change color", this, &PaintScene::slot_color);
         menu.addAction("Delete", this, &PaintScene::slot_delete);
         if(selectedNodeForPopupMenu){
-            menu.addAction("sssd");
+            menu.addAction("Degree", this, [this](){
+                calc_degree(selectedNodeForPopupMenu);
+            });
             menu.addAction("Set Name", this, &PaintScene::slot_set_name);
         }
         menu.exec(event->screenPos());

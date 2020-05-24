@@ -30,6 +30,7 @@ private:
     void resizeEvent(QResizeEvent * event);
 
 private slots:
+    void slot_degree(Node *node);
     void slotTimer();
     void on_actionSelect_triggered();
     void on_actionNode_triggered();

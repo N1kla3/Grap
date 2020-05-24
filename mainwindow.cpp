@@ -19,7 +19,7 @@ MainWindow::MainWindow(QWidget *parent)
     scene->setFlag(SELECTION);
     ui->graphicsView->setScene(scene);
     tabber = new QTabWidget(ui->centralwidget);
-
+    connect(scene, &PaintScene::calc_degree, this, &MainWindow::slot_degree);
     tabber->insertTab(1, ui->graphicsView, "view");
     tabber->setTabsClosable(true);
     tabber->setMovable(true);
@@ -112,6 +112,7 @@ void MainWindow::on_actionNew_Graph_triggered()
     if(ok){
         PaintScene *scene = new PaintScene();
         scene->setFlag(SELECTION);
+        connect(scene, &PaintScene::calc_degree, this, &MainWindow::slot_degree);
         QGraphicsView *view = new QGraphicsView();
         view->setScene(scene);
         view->resize(this->width()-20, this->height()-100);
@@ -192,6 +193,7 @@ void MainWindow::on_actionOpen_triggered()
 
     PaintScene *scene = new PaintScene();
     scene->setFlag(SELECTION);
+    connect(scene, &PaintScene::calc_degree, this, &MainWindow::slot_degree);
     QGraphicsView *view = new QGraphicsView();
     view->setRenderHint(QPainter::Antialiasing);
     view->setRenderHint(QPainter::TextAntialiasing);
@@ -297,4 +299,13 @@ void MainWindow::on_actionItems_triggered()
                                  +  QString::number(currentGraph->getNodes()) + "\narrows :"
                                  + QString::number(currentGraph->getArrows()));
     }
+}
+
+void MainWindow::slot_degree(Node *node){
+    if(currentGraph)delete currentGraph;
+    createGraph();
+    QMessageBox::information(this, "Degree of Graph", "All :"
+                             +  QString::number(currentGraph->getDegree())
+                             + "\nFor selected :"
+                             + QString::number(currentGraph->getSpecDegree(node)));
 }

@@ -18,6 +18,8 @@ public:
     void setMatrixAt(const int i, const int j, const int num);
     int getArrows();
     int getNodes();
+    int getDegree();
+    int getSpecDegree(Node *node);
 public slots:
     void slot_degree(Node *node);
 private:

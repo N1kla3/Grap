@@ -19,6 +19,8 @@ public:
     explicit PaintScene(QObject* parent = 0);
     ~PaintScene(){}
     void setFlag(EActionToDo);
+signals:
+    void calc_degree(Node *node);
 public slots:
     void slot_color();
     void slot_delete();
