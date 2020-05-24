@@ -41,6 +41,7 @@ void PaintScene::mousePressEvent(QGraphicsSceneMouseEvent *event){
         Arrow *arrow = qgraphicsitem_cast<Arrow*>(item);
         Node *node = qgraphicsitem_cast<Node*>(item);
         Mininode *mininode = qgraphicsitem_cast<Mininode*>(item);
+        UnArrow *unorient = qgraphicsitem_cast<UnArrow*>(item);
 
         if(mininode){
             currMininode = mininode;
@@ -50,9 +51,7 @@ void PaintScene::mousePressEvent(QGraphicsSceneMouseEvent *event){
             }
             selectedItem = node;
         }else if(arrow){
-            if(qgraphicsitem_cast<Arrow*>(selectedItem)){
-                deleteMiniNodes();
-            }
+            deleteMiniNodes();
             selectedItem = arrow;
             firstNodeOfArrow = arrow->getFirstNode();
             secondNodeOfArrow = arrow->getSecondNode();
@@ -63,6 +62,20 @@ void PaintScene::mousePressEvent(QGraphicsSceneMouseEvent *event){
             arrow->setFirstNode(one);
             arrow->setSecondNode(two);
             arrow->update();
+            this->addItem(one);
+            this->addItem(two);
+        }else if(unorient){
+            deleteMiniNodes();
+            selectedItem = unorient;
+            firstNodeOfArrow = unorient->getFirstNode();
+            secondNodeOfArrow = unorient->getSecondNode();
+            one = new Mininode();
+            one->setPos(firstNodeOfArrow->pos());
+            two = new Mininode();
+            two->setPos(secondNodeOfArrow->pos());
+            unorient->setFirstNode(one);
+            unorient->setSecondNode(two);
+            unorient->update();
             this->addItem(one);
             this->addItem(two);
         }
@@ -129,7 +142,8 @@ void PaintScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
     if(currMininode != nullptr){
         deleteMiniNodes();
     }
-    if(!qgraphicsitem_cast<Arrow*>(selectedItem)){
+    if(!qgraphicsitem_cast<Arrow*>(selectedItem)
+            && !qgraphicsitem_cast<UnArrow*>(selectedItem)){
         selectedItem = nullptr;
     }
     Q_UNUSED(event)
@@ -140,6 +154,8 @@ void PaintScene::contextMenuEvent(QGraphicsSceneContextMenuEvent *event){
     QGraphicsItem *selectedItemForPopupMenu = itemAt(event->scenePos(), QTransform());
     selectedNodeForPopupMenu = qgraphicsitem_cast<Node*>(selectedItemForPopupMenu);
     selectedArrowForPopupMenu = qgraphicsitem_cast<Arrow*>(selectedItemForPopupMenu);
+    selectedUnArrowPopup = qgraphicsitem_cast<UnArrow*>(selectedItemForPopupMenu);
+    deleteMiniNodes();
     selectedItem = nullptr;
     if(selectedItemForPopupMenu){
         QMenu menu(event->widget());
@@ -164,6 +180,7 @@ void PaintScene::deleteMiniNodes(){
     if(!one)return;
     if(!two)return;
     Arrow *a = qgraphicsitem_cast<Arrow*>(selectedItem);
+    if(!a)a = qgraphicsitem_cast<UnArrow*>(selectedItem);
     a->setFirstNode(nullptr);
     a->setSecondNode(nullptr);
     auto pos1 = one->pos();
@@ -190,9 +207,14 @@ void PaintScene::deleteMiniNodes(){
 
 void PaintScene::slot_color(){
     if(selectedNodeForPopupMenu){
-        selectedNodeForPopupMenu->setColor(QColorDialog::getColor(Qt::darkGreen));
+        auto color = QColorDialog::getColor(Qt::darkGreen);
+        if(color.isValid())selectedNodeForPopupMenu->setColor(color);
     }else if(selectedArrowForPopupMenu){
-        selectedArrowForPopupMenu->setColor(QColorDialog::getColor(Qt::darkYellow));
+        auto color = QColorDialog::getColor(Qt::darkYellow);
+        if(color.isValid())selectedArrowForPopupMenu->setColor(color);
+    }else if(selectedUnArrowPopup){
+        auto color = QColorDialog::getColor(Qt::darkYellow);
+        if(color.isValid())selectedUnArrowPopup->setColor(color);
     }
 }
 
@@ -202,14 +224,18 @@ void PaintScene::slot_delete(){
         removeItem(selectedNodeForPopupMenu);
         delete selectedNodeForPopupMenu;
         selectedNodeForPopupMenu = nullptr;
-        selectedItem = nullptr;
     }else if(selectedArrowForPopupMenu){
         deleteMiniNodes();
         removeItem(selectedArrowForPopupMenu);
         delete selectedArrowForPopupMenu;
         selectedArrowForPopupMenu = nullptr;
-        selectedItem = nullptr;
+    }else if(selectedUnArrowPopup){
+        deleteMiniNodes();
+        removeItem(selectedUnArrowPopup);
+        delete selectedUnArrowPopup;
+        selectedUnArrowPopup = nullptr;
     }
+    selectedItem = nullptr;
 }
 
 void PaintScene::slot_delete_arrow(Arrow *arrow){

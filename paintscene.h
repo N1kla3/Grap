@@ -4,7 +4,7 @@
 #include<QGraphicsSceneMouseEvent>
 #include <QTimer>
 #include <arrow.h>
-
+#include <unarrow.h>
 
 enum EActionToDo{
     SELECTION,
@@ -43,6 +43,7 @@ private:
     QGraphicsItem *selectedItem;
     Node *selectedNodeForPopupMenu;
     Arrow *selectedArrowForPopupMenu;
+    UnArrow *selectedUnArrowPopup;
 };
 
 #endif // PAINTSCENE_H
