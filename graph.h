@@ -23,9 +23,11 @@ public:
     int getSpecDegree(Node *node);
     QString getMatrix();
     void dfs(int i);
+    void bfsDepth(int i, int depth);
     void bfs();
     bool hamilton();
     bool dfsHamil(int i, int root, QStack<QPair<int, int>> &q);
+    void centerGraph(int & radius, int & diametr);
     QString isTree();
 public slots:
     void slot_degree(Node *node);
@@ -33,6 +35,8 @@ private:
     QVector<bool> check;
     int size;
     int arrows;
+    int radius;
+    int diametr;
     QString name;
     QVector<Node*> nodes;
     QMap<QPair<int, int>, Arrow*> orArrows;

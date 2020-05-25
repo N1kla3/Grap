@@ -336,3 +336,16 @@ void MainWindow::on_actionHamilton_Cycle_triggered()
         QMessageBox::information(this, "Hamilton", "NO HAMILTON CYCLE");
     }
 }
+
+void MainWindow::on_actionDiametr_Radius_triggered()
+{
+    if(currentGraph)delete currentGraph;
+    createGraph();
+    int radius = 0;
+    int diametr = 0;
+    currentGraph->centerGraph(radius, diametr);
+    QMessageBox::information(this, "Center Graph", "Radius :"
+                             +  QString::number(radius)
+                             + "\n\nDiametr :"
+                             + QString::number(diametr));
+}

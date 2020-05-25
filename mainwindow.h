@@ -46,5 +46,6 @@ private slots:
     void on_actionMatrix_triggered();
     void on_actionMake_Tree_triggered();
     void on_actionHamilton_Cycle_triggered();
+    void on_actionDiametr_Radius_triggered();
 };
 #endif // MAINWINDOW_H

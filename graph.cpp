@@ -42,7 +42,7 @@ QString Graph::getName(){
 
 void Graph::writeFile(const QString fileName){
     QFile file(fileName);
-    if(!file.exists())return;
+
     file.open( QIODevice::WriteOnly );
     if(file.isOpen()){
         QTextStream outStream(&file);
@@ -177,6 +177,25 @@ void Graph::dfs(int i) {
     }
 }
 
+void Graph::bfsDepth(int i, int depth){
+    check = QVector<bool>(size, false);
+    QQueue<QPair<int, int>> q;
+    check[i] = true;
+    q.enqueue(qMakePair(i, depth));
+    while(!q.empty()){
+        auto s = q.dequeue();
+        radius = qMax(radius, s.second);
+        diametr = qMax(diametr, s.second);
+        for(int k = 0; k < size; ++k){
+            if(matrix[s.first][k] && !check[k]){
+                q.enqueue(qMakePair(k, s.second+1));
+                check[k] = true;
+            }
+        }
+    }
+
+}
+
 QString Graph::isTree() {
     int edges = 0;
     for (int i = 0; i < size; ++i) {
@@ -248,5 +267,22 @@ bool Graph::hamilton(){
         }
     }
     return false;
+}
+
+void Graph::centerGraph(int &radius, int &diametr){
+    this->diametr = 0;
+    int rad = 10e8;
+    for(int i = 0; i < size; ++i){
+        this->radius = 0;
+        bfsDepth(i, 0);
+        nodes[i]->setExcent(this->radius);
+        rad = qMin(rad, this->radius);
+    }
+    radius = rad;
+    diametr = this->diametr;
+    for(auto i : nodes){
+        if(i->getExcent() == rad)
+            nodes[i->getIndex()]->setColor(Qt::red);
+    }
 }
 

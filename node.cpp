@@ -52,3 +52,11 @@ void Node::setName(const QString name){
 QString Node::getName(){
     return name->toPlainText();
 }
+
+void Node::setExcent(int e){
+    excent = e;
+}
+
+int Node::getExcent(){
+    return excent;
+}

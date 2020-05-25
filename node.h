@@ -19,10 +19,13 @@ public:
     void setName(const QString name);
     QString getName();
     int getIndex();
+    void setExcent(int e);
+    int getExcent();
 signals:
     void moved();
     void deleted();
 private:
+    int excent;
     QGraphicsTextItem *name;
     int index;
     QBrush brush;
