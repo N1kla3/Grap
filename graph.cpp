@@ -2,6 +2,8 @@
 #include <QFile>
 #include <QTextStream>
 #include <QQueue>
+#include <QDebug>
+#include<QStack>
 
 Graph::Graph(int size):
     size(size),
@@ -199,5 +201,52 @@ QString Graph::isTree() {
         check = QVector<bool>(size, false);
     }
     return "False";
+}
+
+bool Graph::dfsHamil(int i, int root, QStack<QPair<int, int>> &q){
+    bool res = false;
+    for(int k = 0; k < size; ++k){
+        if(matrix[i][k] && !check[k]){
+            check[k] = true;
+            q.push(qMakePair(i,k));
+            qDebug() << "enq " << i << " " << k;
+            if(dfsHamil(k, root, q)){
+                res = true;
+                break;
+            }else {
+                check[k] = false;
+                q.pop();
+                qDebug() << "deq " << i << " " << k;
+            }
+        }
+    }
+    if(i == root){
+        res = true;
+        for(auto i : check)
+            if(!i)res = i;
+    }
+    return res;
+}
+
+bool Graph::hamilton(){
+    for(int vertex = 0; vertex < size; ++vertex){
+        QStack<QPair<int, int>> q;
+        check = QVector<bool>(size, false);
+        if(dfsHamil(vertex, vertex, q)){
+            while(!q.empty()){
+                auto pair = q.pop();
+                qDebug() << pair.first << " " << pair.second << "\n";
+                if(orArrows.contains(pair))
+                    orArrows[pair]->setColor(Qt::red);
+                else if(unArrows.contains(pair))
+                    unArrows[pair]->setColor(Qt::red);
+                else if(unArrows.contains(qMakePair(pair.second, pair.first)))
+                    unArrows[qMakePair(pair.second, pair.first)]->setColor(Qt::red);
+
+            }
+            return true;
+        }
+    }
+    return false;
 }
 

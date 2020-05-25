@@ -327,3 +327,12 @@ void MainWindow::on_actionMake_Tree_triggered()
     createGraph();
     currentGraph->bfs();
 }
+
+void MainWindow::on_actionHamilton_Cycle_triggered()
+{
+    if(currentGraph)delete currentGraph;
+    createGraph();
+    if(!currentGraph->hamilton()){
+        QMessageBox::information(this, "Hamilton", "NO HAMILTON CYCLE");
+    }
+}

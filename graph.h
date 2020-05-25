@@ -24,6 +24,8 @@ public:
     QString getMatrix();
     void dfs(int i);
     void bfs();
+    bool hamilton();
+    bool dfsHamil(int i, int root, QStack<QPair<int, int>> &q);
     QString isTree();
 public slots:
     void slot_degree(Node *node);
