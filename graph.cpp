@@ -150,8 +150,15 @@ void Graph::bfs(){
             for(int k = 0; k < size; k++){
                 for(int j = 0; j < size; j++){
                     if(!mat[k][j] && matrix[k][j]){
+                        if(matrix[j][k] && mat[j][k]){
+                            matrix[j][k] = 0;
+                            continue;
+                        }
+
                         if(unArrows.contains(qMakePair(k,j))){
                             unArrows[qMakePair(k,j)]->slot_delete();
+                        }else if(unArrows.contains(qMakePair(j, k))){
+                            unArrows[qMakePair(j, k)]->slot_delete();
                         }
                         if(orArrows.contains(qMakePair(k,j))){
                             orArrows[qMakePair(k,j)]->slot_delete();
@@ -200,7 +207,8 @@ QString Graph::isTree() {
     int edges = 0;
     for (int i = 0; i < size; ++i) {
         for (int j = 0; j < size; ++j) {
-            if (matrix[i][j]) {
+            if (matrix[i][j] == 1) {
+                if(matrix[j][i])matrix[j][i] = 2;
                 edges++;
             }
         }
