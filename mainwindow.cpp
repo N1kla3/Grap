@@ -165,9 +165,9 @@ void MainWindow::createGraph(){
             if(node){
                 currentGraph->addNode(node);
             }else if(unarrow){
-                currentGraph->addUnOrientedArrow(unarrow->getFirstNode()->getIndex(), unarrow->getSecondNode()->getIndex());
+                currentGraph->addUnOrientedArrow(unarrow->getFirstNode()->getIndex(), unarrow->getSecondNode()->getIndex(), unarrow);
             }else if(arrow){
-                currentGraph->addOrientedArrow(arrow->getFirstNode()->getIndex(), arrow->getSecondNode()->getIndex());
+                currentGraph->addOrientedArrow(arrow->getFirstNode()->getIndex(), arrow->getSecondNode()->getIndex(), arrow);
             }
         }
     }
@@ -318,4 +318,12 @@ void MainWindow::on_actionMatrix_triggered()
                              +  currentGraph->getMatrix()
                              + "\n\nIs a Tree :"
                              + currentGraph->isTree());
+}
+
+
+void MainWindow::on_actionMake_Tree_triggered()
+{
+    if(currentGraph)delete currentGraph;
+    createGraph();
+    currentGraph->bfs();
 }

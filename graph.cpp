@@ -1,6 +1,7 @@
 #include "graph.h"
 #include <QFile>
 #include <QTextStream>
+#include <QQueue>
 
 Graph::Graph(int size):
     size(size),
@@ -16,12 +17,14 @@ void Graph::addNode(Node *node){
     nodes[node->getIndex()] = node;
 }
 
-void Graph::addOrientedArrow(const int first, const int second){
+void Graph::addOrientedArrow(const int first, const int second, Arrow *arrow){
+    orArrows[qMakePair(first, second)] = arrow;
     ++arrows;
     matrix[first][second] = 1;
 }
 
-void Graph::addUnOrientedArrow(const int first, const int second){
+void Graph::addUnOrientedArrow(const int first, const int second, UnArrow *arrow){
+    unArrows[qMakePair(first, second)] = arrow;
     ++arrows;
     matrix[first][second] = 1;
     matrix[second][first] = 1;
@@ -117,15 +120,56 @@ QString Graph::getMatrix(){
     return res;
 }
 
+void Graph::bfs(){
+    QVector<QVector<int>> mat(size, QVector<int>(size, 0));
+    for(int i = 0; i < size; ++i){
+        check = QVector<bool>(size, false);
+        QQueue<int> q;
+        check[i] = true;
+        q.enqueue(i);
+        while(!q.empty()){
+            int s = q.dequeue();
+            for(int k = 0; k < size; ++k){
+                if(matrix[s][k] && !check[k]){
+                    mat[s][k] = 1;
+                    q.enqueue(k);
+                    check[k] = true;
+                }
+            }
+        }
+        bool bCheck = true;
+        for(auto k : check){
+            if(!k){
+                bCheck = false;
+                break;
+            }
+        }
+        if(bCheck){
+            for(int k = 0; k < size; k++){
+                for(int j = 0; j < size; j++){
+                    if(!mat[k][j] && matrix[k][j]){
+                        if(unArrows.contains(qMakePair(k,j))){
+                            unArrows[qMakePair(k,j)]->slot_delete();
+                        }
+                        if(orArrows.contains(qMakePair(k,j))){
+                            orArrows[qMakePair(k,j)]->slot_delete();
+                        }
+                    }
+                }
+            }
+
+            return;
+        }else mat = QVector<QVector<int>>(size, QVector<int>(size, 0));
+    }
+}
+
 void Graph::dfs(int i) {
-    bool inc = false;
     if (check[i]) {
     return;
     }
     check[i] = true;
     for (int j = 0; j < size; ++j) {
         if (matrix[i][j]) {
-            inc = true;
             dfs(j);
         }
     }
