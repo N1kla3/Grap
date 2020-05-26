@@ -15,6 +15,7 @@ public:
     QString getName();
     void setName(const QString name);
     void writeFile(const QString fileName);
+    QVector<QVector<int>> getMatrix2();
     int matrixAt(const int i, const int j);
     void setMatrixAt(const int i, const int j, const int num);
     int getArrows();

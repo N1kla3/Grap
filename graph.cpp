@@ -294,3 +294,6 @@ void Graph::centerGraph(int &radius, int &diametr){
     }
 }
 
+QVector<QVector<int>> Graph::getMatrix2(){
+    return  matrix;
+}

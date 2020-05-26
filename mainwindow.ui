@@ -77,6 +77,7 @@
     <addaction name="actionMake_Tree"/>
     <addaction name="actionHamilton_Cycle"/>
     <addaction name="actionDiametr_Radius"/>
+    <addaction name="actionDekart"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuActions"/>
@@ -219,6 +220,11 @@
   <action name="action">
    <property name="text">
     <string>Set Name</string>
+   </property>
+  </action>
+  <action name="actionDekart">
+   <property name="text">
+    <string>Dekart</string>
    </property>
   </action>
  </widget>

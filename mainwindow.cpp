@@ -141,8 +141,8 @@ void MainWindow::tab_close(int index){
     view->deleteLater();
 }
 
-void MainWindow::createGraph(){
-    QGraphicsView *view = qobject_cast<QGraphicsView*>(tabber->currentWidget());
+void MainWindow::createGraph(QGraphicsView *view = nullptr){
+    if(!view)view = qobject_cast<QGraphicsView*>(tabber->currentWidget());
     if(view){
         int i = 0;
         QList<QGraphicsItem*> items = view->items();
@@ -261,7 +261,7 @@ void MainWindow::on_actionOpen_triggered()
         }
     }
     file.close();
-    tabber->addTab(view, graphName);
+    tabber->insertTab(1, view, graphName);
 }
 
 void MainWindow::on_actionunoriented_triggered()
@@ -348,4 +348,91 @@ void MainWindow::on_actionDiametr_Radius_triggered()
                              +  QString::number(radius)
                              + "\n\nDiametr :"
                              + QString::number(diametr));
+}
+
+void MainWindow::on_actionDekart_triggered()
+{
+    QRandomGenerator generator;
+    createGraph();
+    Graph *graph1 = currentGraph;
+    on_actionOpen_triggered();
+    createGraph(qobject_cast<QGraphicsView*>(tabber->widget(1)));
+    Graph *graph2 = currentGraph;
+    auto res = kroneker(graph1->getMatrix2(), graph2->getMatrix2());
+    const int size = res.size();
+
+    PaintScene *scene = new PaintScene();
+    scene->setFlag(SELECTION);
+    connect(scene, &PaintScene::calc_degree, this, &MainWindow::slot_degree);
+    QGraphicsView *view = new QGraphicsView();
+    view->setRenderHint(QPainter::Antialiasing);
+    view->setRenderHint(QPainter::TextAntialiasing);
+    view->setRenderHint(QPainter::SmoothPixmapTransform);
+    view->setRenderHint(QPainter::HighQualityAntialiasing);
+    view->setScene(scene);
+    view->resize(this->width()-20, this->height()-100);
+    view->scene()->setSceneRect(0,0, this->width()-20, this->height()-100);
+
+    QVector<Node*> nodes(size);
+    for(int i = 0; i < size; ++i){
+        Node *node = new Node();
+        nodes[i] = node;
+        node->setPos(generator.bounded(view->width()), generator.bounded(view->height()));
+        scene->addItem(node);
+    }
+    for(int i = 0; i < size; ++i){
+        for(int j = 0; j < size; ++j){
+            if(res[i][j]){
+                if(res[j][i]){
+                    UnArrow *arrow = new UnArrow();
+                    arrow->initBetweenNodes(nodes[i], nodes[j]);
+                    connect(arrow, &Arrow::delete_from_node, scene, &PaintScene::slot_delete_arrow);
+                    scene->addItem(arrow);
+                    res[j][i] = 0;
+                }else{
+                    Arrow *arrow = new Arrow();
+                    arrow->initBetweenNodes(nodes[i], nodes[j]);
+                    connect(arrow, &Arrow::delete_from_node, scene, &PaintScene::slot_delete_arrow);
+                    scene->addItem(arrow);
+                }
+            }
+        }
+    }
+
+    tabber->insertTab(1, view, "Decart");
+}
+
+QVector<QVector<int>> MainWindow::kroneker(const QVector<QVector<int> > &first, const QVector<QVector<int> > &second){
+    const int firstSize = first.size();
+    const int secondSize = second.size();
+    const int size = firstSize * secondSize;
+    QVector<QVector<int>> firstOne(firstSize, QVector<int>(firstSize, 1));
+    QVector<QVector<int>> secondOne(secondSize, QVector<int>(secondSize, 1));
+    auto onePlus = kronekerHelper(first, secondOne);
+    auto twoPlus = kronekerHelper(second, firstOne);
+    QVector<QVector<int>> result(size, QVector<int>(size, 0));
+    for(int i = 0; i < size; ++i){
+        for(int j = 0; j < size; ++j){
+            if(onePlus[i][j] || twoPlus[i][j])
+                result[i][j] = 1;
+        }
+    }
+    return result;
+}
+
+QVector<QVector<int>> MainWindow::kronekerHelper(const QVector<QVector<int>> &first, const QVector<QVector<int>> &second){
+    int fSize = first.size();
+    int sSize = second.size();
+    int size = fSize*sSize;
+    QVector<QVector<int>> result(size, QVector<int>(size, 0));
+    for (int z1(0); z1 < fSize; ++z1) {
+            for (int z2(0); z2 < sSize; ++z2) {
+                for (int z3(0); z3 < fSize; ++z3) {
+                    for (int z4(0); z4 < sSize; ++z4) {
+                        result[z1*sSize + z2][z3*sSize + z4] = first[z1][z3] * second[z2][z4];
+                    }
+                }
+            }
+        }
+    return result;
 }

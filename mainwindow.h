@@ -16,7 +16,7 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-    void createGraph();
+    void createGraph(QGraphicsView *view);
 private:
     Ui::MainWindow *ui;
     QTimer *timer;
@@ -28,6 +28,8 @@ private:
 private:
     Graph *currentGraph;
     void resizeEvent(QResizeEvent * event);
+    QVector<QVector<int>> kroneker(const QVector<QVector<int>> &first, const QVector<QVector<int>> &second);
+    QVector<QVector<int>> kronekerHelper(const QVector<QVector<int>> &first, const QVector<QVector<int>> &second);
 
 private slots:
     void slot_degree(Node *node);
@@ -47,5 +49,6 @@ private slots:
     void on_actionMake_Tree_triggered();
     void on_actionHamilton_Cycle_triggered();
     void on_actionDiametr_Radius_triggered();
+    void on_actionDekart_triggered();
 };
 #endif // MAINWINDOW_H
