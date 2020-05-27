@@ -144,6 +144,8 @@ void MainWindow::tab_close(int index){
 void MainWindow::createGraph(QGraphicsView *view = nullptr){
     if(!view)view = qobject_cast<QGraphicsView*>(tabber->currentWidget());
     if(view){
+        auto scene = qobject_cast<PaintScene*>(view->scene());
+        scene->deleteMiniNodes();
         int i = 0;
         QList<QGraphicsItem*> items = view->items();
         for(QGraphicsItem *item : items){

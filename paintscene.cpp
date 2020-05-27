@@ -37,6 +37,7 @@ void PaintScene::mousePressEvent(QGraphicsSceneMouseEvent *event){
     case SELECTION:
     {
         bDrawArrow = false;
+        bUnOrient = false;
         QGraphicsItem *item = itemAt(event->scenePos(), QTransform());
         Arrow *arrow = qgraphicsitem_cast<Arrow*>(item);
         Node *node = qgraphicsitem_cast<Node*>(item);
@@ -47,6 +48,8 @@ void PaintScene::mousePressEvent(QGraphicsSceneMouseEvent *event){
             currMininode = mininode;
         }else if(node){
             if(qgraphicsitem_cast<Arrow*>(selectedItem)){
+                deleteMiniNodes();
+            }else if(qgraphicsitem_cast<UnArrow*>(selectedItem)){
                 deleteMiniNodes();
             }
             selectedItem = node;
@@ -85,6 +88,7 @@ void PaintScene::mousePressEvent(QGraphicsSceneMouseEvent *event){
     case CREATE_NODE:
     {
         bDrawArrow = false;
+        bUnOrient = false;
         Node *node = new Node();
         node->setPos(event->scenePos().x(), event->scenePos().y());
         this->addItem(node);

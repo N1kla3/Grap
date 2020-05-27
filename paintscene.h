@@ -19,6 +19,7 @@ public:
     explicit PaintScene(QObject* parent = 0);
     ~PaintScene(){}
     void setFlag(EActionToDo);
+    void deleteMiniNodes();
 signals:
     void calc_degree(Node *node);
 public slots:
@@ -39,7 +40,7 @@ private:
     void mousePressEvent(QGraphicsSceneMouseEvent *event)override;
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *event)override;
     void contextMenuEvent(QGraphicsSceneContextMenuEvent *event) override;
-    void deleteMiniNodes();
+
     QGraphicsItem *selectedItem;
     Node *selectedNodeForPopupMenu;
     Arrow *selectedArrowForPopupMenu;
