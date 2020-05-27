@@ -210,7 +210,7 @@ QString Graph::isTree() {
             if (matrix[i][j] == 1) {
                 if(matrix[j][i])matrix[j][i] = 2;
                 edges++;
-            }
+            }else if(matrix[i][j] == 2)matrix[i][j] = 1;
         }
     }
     if (edges != size - 1) {

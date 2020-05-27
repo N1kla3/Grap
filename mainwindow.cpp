@@ -314,10 +314,10 @@ void MainWindow::on_actionMatrix_triggered()
 {
     if(currentGraph)delete currentGraph;
     createGraph();
-    QMessageBox::information(this, "Matrix", "Matrix :"
-                             +  currentGraph->getMatrix()
-                             + "\n\nIs a Tree :"
-                             + currentGraph->isTree());
+    QMessageBox::information(this, "Matrix", "Is a Tree :"
+                             +  currentGraph->isTree()
+                             + "\n\nMatrix :"
+                             + currentGraph->getMatrix());
 }
 
 
@@ -406,10 +406,12 @@ QVector<QVector<int>> MainWindow::kroneker(const QVector<QVector<int> > &first, 
     const int firstSize = first.size();
     const int secondSize = second.size();
     const int size = firstSize * secondSize;
-    QVector<QVector<int>> firstOne(firstSize, QVector<int>(firstSize, 1));
-    QVector<QVector<int>> secondOne(secondSize, QVector<int>(secondSize, 1));
+    QVector<QVector<int>> firstOne(firstSize, QVector<int>(firstSize, 0));
+    for(int i = 0; i < firstSize; ++i){firstOne[i][i] = 1;}
+    QVector<QVector<int>> secondOne(secondSize, QVector<int>(secondSize, 0));
+    for(int i = 0; i < secondSize; ++i){secondOne[i][i] = 1;}
     auto onePlus = kronekerHelper(first, secondOne);
-    auto twoPlus = kronekerHelper(second, firstOne);
+    auto twoPlus = kronekerHelper(firstOne, second);
     QVector<QVector<int>> result(size, QVector<int>(size, 0));
     for(int i = 0; i < size; ++i){
         for(int j = 0; j < size; ++j){
