@@ -78,6 +78,9 @@
     <addaction name="actionHamilton_Cycle"/>
     <addaction name="actionDiametr_Radius"/>
     <addaction name="actionDekart"/>
+    <addaction name="actionUnion"/>
+    <addaction name="actionIntersection"/>
+    <addaction name="actionAddition"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuActions"/>
@@ -225,6 +228,21 @@
   <action name="actionDekart">
    <property name="text">
     <string>Dekart</string>
+   </property>
+  </action>
+  <action name="actionUnion">
+   <property name="text">
+    <string>Union</string>
+   </property>
+  </action>
+  <action name="actionIntersection">
+   <property name="text">
+    <string>Intersection</string>
+   </property>
+  </action>
+  <action name="actionAddition">
+   <property name="text">
+    <string>Addition</string>
    </property>
   </action>
  </widget>

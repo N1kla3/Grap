@@ -440,3 +440,195 @@ QVector<QVector<int>> MainWindow::kronekerHelper(const QVector<QVector<int>> &fi
         }
     return result;
 }
+
+QVector<QVector<int>> MainWindow::graphUnion(const QVector<QVector<int>> &first, const QVector<QVector<int>> &second){
+    int size = qMax(first.size(), second.size());
+    QVector<QVector<int>> res(size, QVector<int>(size, 0));
+    for(int i = 0; i < second.size(); ++i){
+        for(int j = 0; j < second.size(); ++j){
+            if(second[i][j])res[i][j] = 1;
+        }
+    }
+    for(int i = 0; i < first.size(); ++i){
+        for(int j = 0; j < first.size(); ++j){
+            if(first[i][j])res[i][j] = 1;
+        }
+    }
+    return res;
+}
+
+QVector<QVector<int>> MainWindow::graphSection(const QVector<QVector<int>> &first, const QVector<QVector<int>> &second){
+    int size = qMin(first.size(), second.size());
+    QVector<QVector<int>> res(size, QVector<int>(size, 0));
+    for(int i = 0; i < size; ++i){
+        for(int j = 0; j < size; ++j){
+            if(second[i][j] && first[i][j])res[i][j] = 1;
+        }
+    }
+    return res;
+}
+
+QVector<QVector<int>> MainWindow::graphAddition(const QVector<QVector<int>> &first){
+    int size = first.size();
+    QVector<QVector<int>> res(size, QVector<int>(size, 0));
+    for(int i = 0; i < size; ++i){
+        for(int j = 0; j < size; ++j){
+            if(i == j)continue;
+            if(first[i][j])res[i][j] = 0;
+            else res[i][j] = 1;
+        }
+    }
+    return res;
+}
+
+void MainWindow::on_actionUnion_triggered()
+{
+    QRandomGenerator generator;
+    createGraph();
+    Graph *graph1 = currentGraph;
+    on_actionOpen_triggered();
+    createGraph(qobject_cast<QGraphicsView*>(tabber->widget(1)));
+    Graph *graph2 = currentGraph;
+    auto res = graphUnion(graph1->getMatrix2(), graph2->getMatrix2());
+    const int size = res.size();
+
+    PaintScene *scene = new PaintScene();
+    scene->setFlag(SELECTION);
+    connect(scene, &PaintScene::calc_degree, this, &MainWindow::slot_degree);
+    QGraphicsView *view = new QGraphicsView();
+    view->setRenderHint(QPainter::Antialiasing);
+    view->setRenderHint(QPainter::TextAntialiasing);
+    view->setRenderHint(QPainter::SmoothPixmapTransform);
+    view->setRenderHint(QPainter::HighQualityAntialiasing);
+    view->setScene(scene);
+    view->resize(this->width()-20, this->height()-100);
+    view->scene()->setSceneRect(0,0, this->width()-20, this->height()-100);
+
+    QVector<Node*> nodes(size);
+    for(int i = 0; i < size; ++i){
+        Node *node = new Node();
+        nodes[i] = node;
+        node->setPos(generator.bounded(view->width()), generator.bounded(view->height()));
+        scene->addItem(node);
+    }
+    for(int i = 0; i < size; ++i){
+        for(int j = 0; j < size; ++j){
+            if(res[i][j]){
+                if(res[j][i]){
+                    UnArrow *arrow = new UnArrow();
+                    arrow->initBetweenNodes(nodes[i], nodes[j]);
+                    connect(arrow, &Arrow::delete_from_node, scene, &PaintScene::slot_delete_arrow);
+                    scene->addItem(arrow);
+                    res[j][i] = 0;
+                }else{
+                    Arrow *arrow = new Arrow();
+                    arrow->initBetweenNodes(nodes[i], nodes[j]);
+                    connect(arrow, &Arrow::delete_from_node, scene, &PaintScene::slot_delete_arrow);
+                    scene->addItem(arrow);
+                }
+            }
+        }
+    }
+
+    tabber->insertTab(1, view, "Union");
+}
+
+void MainWindow::on_actionIntersection_triggered()
+{
+    QRandomGenerator generator;
+    createGraph();
+    Graph *graph1 = currentGraph;
+    on_actionOpen_triggered();
+    createGraph(qobject_cast<QGraphicsView*>(tabber->widget(1)));
+    Graph *graph2 = currentGraph;
+    auto res = graphSection(graph1->getMatrix2(), graph2->getMatrix2());
+    const int size = res.size();
+
+    PaintScene *scene = new PaintScene();
+    scene->setFlag(SELECTION);
+    connect(scene, &PaintScene::calc_degree, this, &MainWindow::slot_degree);
+    QGraphicsView *view = new QGraphicsView();
+    view->setRenderHint(QPainter::Antialiasing);
+    view->setRenderHint(QPainter::TextAntialiasing);
+    view->setRenderHint(QPainter::SmoothPixmapTransform);
+    view->setRenderHint(QPainter::HighQualityAntialiasing);
+    view->setScene(scene);
+    view->resize(this->width()-20, this->height()-100);
+    view->scene()->setSceneRect(0,0, this->width()-20, this->height()-100);
+
+    QVector<Node*> nodes(size);
+    for(int i = 0; i < size; ++i){
+        Node *node = new Node();
+        nodes[i] = node;
+        node->setPos(generator.bounded(view->width()), generator.bounded(view->height()));
+        scene->addItem(node);
+    }
+    for(int i = 0; i < size; ++i){
+        for(int j = 0; j < size; ++j){
+            if(res[i][j]){
+                if(res[j][i]){
+                    UnArrow *arrow = new UnArrow();
+                    arrow->initBetweenNodes(nodes[i], nodes[j]);
+                    connect(arrow, &Arrow::delete_from_node, scene, &PaintScene::slot_delete_arrow);
+                    scene->addItem(arrow);
+                    res[j][i] = 0;
+                }else{
+                    Arrow *arrow = new Arrow();
+                    arrow->initBetweenNodes(nodes[i], nodes[j]);
+                    connect(arrow, &Arrow::delete_from_node, scene, &PaintScene::slot_delete_arrow);
+                    scene->addItem(arrow);
+                }
+            }
+        }
+    }
+
+    tabber->insertTab(1, view, "Intersection");
+}
+
+void MainWindow::on_actionAddition_triggered()
+{
+    QRandomGenerator generator;
+    createGraph();
+    auto res = graphAddition(currentGraph->getMatrix2());
+    const int size = res.size();
+
+    PaintScene *scene = new PaintScene();
+    scene->setFlag(SELECTION);
+    connect(scene, &PaintScene::calc_degree, this, &MainWindow::slot_degree);
+    QGraphicsView *view = new QGraphicsView();
+    view->setRenderHint(QPainter::Antialiasing);
+    view->setRenderHint(QPainter::TextAntialiasing);
+    view->setRenderHint(QPainter::SmoothPixmapTransform);
+    view->setRenderHint(QPainter::HighQualityAntialiasing);
+    view->setScene(scene);
+    view->resize(this->width()-20, this->height()-100);
+    view->scene()->setSceneRect(0,0, this->width()-20, this->height()-100);
+
+    QVector<Node*> nodes(size);
+    for(int i = 0; i < size; ++i){
+        Node *node = new Node();
+        nodes[i] = node;
+        node->setPos(generator.bounded(view->width()), generator.bounded(view->height()));
+        scene->addItem(node);
+    }
+    for(int i = 0; i < size; ++i){
+        for(int j = 0; j < size; ++j){
+            if(res[i][j]){
+                if(res[j][i]){
+                    UnArrow *arrow = new UnArrow();
+                    arrow->initBetweenNodes(nodes[i], nodes[j]);
+                    connect(arrow, &Arrow::delete_from_node, scene, &PaintScene::slot_delete_arrow);
+                    scene->addItem(arrow);
+                    res[j][i] = 0;
+                }else{
+                    Arrow *arrow = new Arrow();
+                    arrow->initBetweenNodes(nodes[i], nodes[j]);
+                    connect(arrow, &Arrow::delete_from_node, scene, &PaintScene::slot_delete_arrow);
+                    scene->addItem(arrow);
+                }
+            }
+        }
+    }
+
+    tabber->insertTab(1, view, "Addition");
+}
