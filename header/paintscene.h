@@ -3,8 +3,8 @@
 #include<QGraphicsScene>
 #include<QGraphicsSceneMouseEvent>
 #include <QTimer>
-#include <arrow.h>
-#include <unarrow.h>
+#include "arrow.h"
+#include "unarrow.h"
 
 enum EActionToDo{
     SELECTION,

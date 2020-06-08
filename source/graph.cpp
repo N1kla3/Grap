@@ -1,4 +1,4 @@
-#include "graph.h"
+#include "header/graph.h"
 #include <QFile>
 #include <QTextStream>
 #include <QQueue>

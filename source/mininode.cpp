@@ -1,4 +1,4 @@
-#include "mininode.h"
+#include "header/mininode.h"
 #include <QPainter>
 
 Mininode::Mininode(QObject *parent):

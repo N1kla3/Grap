@@ -2,7 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <paintscene.h>
+#include "paintscene.h"
 #include "graph.h"
 
 QT_BEGIN_NAMESPACE

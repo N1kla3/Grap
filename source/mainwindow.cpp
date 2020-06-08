@@ -1,4 +1,4 @@
-#include "mainwindow.h"
+
 #include "ui_mainwindow.h"
 #include <QTabWidget>
 #include <QInputDialog>
@@ -7,7 +7,8 @@
 #include <QDir>
 #include <QTextStream>
 #include <QRandomGenerator>
-#include <unarrow.h>
+#include <header/unarrow.h>
+#include <header/mainwindow.h>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)

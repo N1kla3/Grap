@@ -1,4 +1,4 @@
-#include "node.h"
+#include "header/node.h"
 #include "QPainter"
 #include <QGraphicsSceneMouseEvent>
 #include <QCursor>

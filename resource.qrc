@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/">
+        <file>picture/node.png</file>
+        <file>picture/cursor.png</file>
+        <file>picture/arrow.png</file>
+        <file>picture/images.png</file>
+    </qresource>
+</RCC>

@@ -1,5 +1,5 @@
-#include "paintscene.h"
-#include <unarrow.h>
+#include "header/paintscene.h"
+#include "header/unarrow.h"
 #include<QMenu>
 #include<QColorDialog>
 #include<QInputDialog>
