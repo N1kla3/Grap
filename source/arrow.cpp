@@ -38,7 +38,6 @@ void Arrow::setBetweenNodes(){
 }
 
 qreal Arrow::calculateRotation() {
-    qreal res = 0;
     qreal result = 0;
     qreal x = first->scenePos().x() - second->scenePos().x();
     qreal y = first->scenePos().y() - second->scenePos().y();
@@ -48,7 +47,7 @@ qreal Arrow::calculateRotation() {
     }else if((x > 0 && y < 0) || (x < 0 && y < 0)){
         result = qFabs(x) / length;
     }
-    res = (qAsin(result)*(180/M_PI));
+    qreal res = (qAsin(result)*(180/M_PI));
     if(x >= 0 && y < 0){
         res = 90 + res;
     }else if (x > 0 && y >= 0){
@@ -64,8 +63,7 @@ qreal Arrow::calculateRotation() {
 }
 
 qreal Arrow::calculateLength(qreal x, qreal y)const {
-    qreal res = (qSqrt(x*x + y*y));
-    return res;
+    return qSqrt(x*x + y*y);
 }
 
 void Arrow::initBetweenNodes(Node *first, Node *second){
@@ -83,7 +81,6 @@ void Arrow::slotFirstMove(){
 }
 
 void Arrow::slotSecondMove(){
-
     setBetweenNodes();
     prepareGeometryChange();
     update();

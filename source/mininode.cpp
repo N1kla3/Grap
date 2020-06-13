@@ -8,13 +8,13 @@ Mininode::Mininode(QObject *parent):
 }
 
 QRectF Mininode::boundingRect()const{
-    return QRectF(-10, -10, 20, 20);
+    return QRectF(ALEFT, ATOP, DIAMETR, DIAMETR);
 }
 
 void Mininode::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
     painter->setPen(Qt::darkRed);
     painter->setBrush(Qt::darkRed);
-    painter->drawEllipse(-10, -10, 20, 20);
+    painter->drawEllipse(ALEFT, ATOP, DIAMETR, DIAMETR);
     Q_UNUSED(option);
     Q_UNUSED(widget);
 }

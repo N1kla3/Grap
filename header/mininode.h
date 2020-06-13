@@ -12,6 +12,8 @@ public:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
 private:
     int type() const override;
+    const int DIAMETR = 20;
+    const int ALEFT = -10, ATOP = -10;
 };
 
 #endif // MININODE_H

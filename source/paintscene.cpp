@@ -9,14 +9,13 @@ PaintScene::PaintScene(QObject* parent):
     bDrawArrow(false),
     bUnOrient(false),
     flag(SELECTION),
-    selectedItem(nullptr)
-{
-    firstNodeOfArrow = nullptr;
-    secondNodeOfArrow = nullptr;
-    one = nullptr;
-    two = nullptr;
-    currMininode = nullptr;
-}
+    selectedItem(nullptr),
+    firstNodeOfArrow(nullptr),
+    secondNodeOfArrow(nullptr),
+    one(nullptr),
+    two(nullptr),
+    currMininode(nullptr)
+{}
 
 void PaintScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event){
     if(event->scenePos().x() < 0 || event->scenePos().x() > width())return;

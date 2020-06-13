@@ -15,13 +15,13 @@ Node::Node(QObject *parent):
 }
 
 QRectF Node::boundingRect() const{
-    return QRectF (-15,-15,ELLIPSE_SIZE,ELLIPSE_SIZE);
+    return QRectF (ALEFT,ATOP,ELLIPSE_SIZE,ELLIPSE_SIZE);
 }
 
 void Node::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
     painter->setPen(Qt::black);
     painter->setBrush(brush);
-    painter->drawEllipse(-15, -15, ELLIPSE_SIZE, ELLIPSE_SIZE);
+    painter->drawEllipse(ALEFT, ATOP, ELLIPSE_SIZE, ELLIPSE_SIZE);
     Q_UNUSED(option);
     Q_UNUSED(widget);
 }
@@ -30,7 +30,7 @@ int Node::type()const{
     return Type;
 }
 
-void Node::setColor(const QColor color){
+void Node::setColor(const QColor& color){
     pen.setColor(color);
     brush.setColor(color);
     update();
@@ -44,7 +44,7 @@ void Node::setIndex(int index){
     this->index = index;
 }
 
-void Node::setName(const QString name){
+void Node::setName(const QString& name){
     this->name->setPlainText(name);
     update();
 }

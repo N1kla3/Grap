@@ -1,5 +1,5 @@
 
-#include "ui_mainwindow.h"
+
 #include <QTabWidget>
 #include <QInputDialog>
 #include <QFileDialog>
@@ -9,6 +9,7 @@
 #include <QRandomGenerator>
 #include <header/unarrow.h>
 #include <header/mainwindow.h>
+#include "ui_mainwindow.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)

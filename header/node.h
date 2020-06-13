@@ -14,9 +14,9 @@ public:
     enum{Type = UserType + 1 };
     QRectF boundingRect() const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)override;
-    void setColor(const QColor color);
+    void setColor(const QColor& color);
     void setIndex(int index);
-    void setName(const QString name);
+    void setName(const QString& name);
     QString getName();
     int getIndex();
     void setExcent(int e);
@@ -31,6 +31,7 @@ private:
     QBrush brush;
     QPen pen;
     const int ELLIPSE_SIZE = 30;
+    const int ALEFT = -15, ATOP = - 15;
     int type() const override;
 };
 

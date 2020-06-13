@@ -24,7 +24,6 @@ public slots:
     void slotSecondMove();
     void slot_delete();
 protected:
-    int width;
     int height;
     qreal length;
     Node *first;
