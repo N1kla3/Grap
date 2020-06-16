@@ -16,7 +16,7 @@ public:
     Node* getFirstNode();
     Node* getSecondNode();
     void prepareUpdate();
-    void setColor(const QColor color);
+    void setColor(const QColor& color);
 signals:
     void delete_from_node(Arrow *arrow);
 public slots:

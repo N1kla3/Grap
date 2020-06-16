@@ -36,6 +36,8 @@ private:
     Mininode *two;
     Mininode *currMininode;
     EActionToDo flag;
+    void doSelectedMode(QGraphicsItem *item);
+    void createArrowMode(Node *node);
     void mouseMoveEvent(QGraphicsSceneMouseEvent *event)override;
     void mousePressEvent(QGraphicsSceneMouseEvent *event)override;
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *event)override;

@@ -19,6 +19,7 @@ set(SOURCE_FILES
         source/node.cpp
         source/paintscene.cpp
         source/unarrow.cpp
+        source/BaseArrow.cpp
         )
 
 set(HEADER_FILES
@@ -29,6 +30,7 @@ set(HEADER_FILES
         header/node.h
         header/paintscene.h
         header/unarrow.h
+        header/BaseArrow.h
         )
 
 

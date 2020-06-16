@@ -38,49 +38,7 @@ void PaintScene::mousePressEvent(QGraphicsSceneMouseEvent *event){
         bDrawArrow = false;
         bUnOrient = false;
         QGraphicsItem *item = itemAt(event->scenePos(), QTransform());
-        Arrow *arrow = qgraphicsitem_cast<Arrow*>(item);
-        Node *node = qgraphicsitem_cast<Node*>(item);
-        Mininode *mininode = qgraphicsitem_cast<Mininode*>(item);
-        UnArrow *unorient = qgraphicsitem_cast<UnArrow*>(item);
-
-        if(mininode){
-            currMininode = mininode;
-        }else if(node){
-            if(qgraphicsitem_cast<Arrow*>(selectedItem)){
-                deleteMiniNodes();
-            }else if(qgraphicsitem_cast<UnArrow*>(selectedItem)){
-                deleteMiniNodes();
-            }
-            selectedItem = node;
-        }else if(arrow){
-            deleteMiniNodes();
-            selectedItem = arrow;
-            firstNodeOfArrow = arrow->getFirstNode();
-            secondNodeOfArrow = arrow->getSecondNode();
-            one = new Mininode();
-            one->setPos(firstNodeOfArrow->pos());
-            two = new Mininode();
-            two->setPos(secondNodeOfArrow->pos());
-            arrow->setFirstNode(one);
-            arrow->setSecondNode(two);
-            arrow->update();
-            this->addItem(one);
-            this->addItem(two);
-        }else if(unorient){
-            deleteMiniNodes();
-            selectedItem = unorient;
-            firstNodeOfArrow = unorient->getFirstNode();
-            secondNodeOfArrow = unorient->getSecondNode();
-            one = new Mininode();
-            one->setPos(firstNodeOfArrow->pos());
-            two = new Mininode();
-            two->setPos(secondNodeOfArrow->pos());
-            unorient->setFirstNode(one);
-            unorient->setSecondNode(two);
-            unorient->update();
-            this->addItem(one);
-            this->addItem(two);
-        }
+        doSelectedMode(item);
         break;
     }
 
@@ -97,22 +55,8 @@ void PaintScene::mousePressEvent(QGraphicsSceneMouseEvent *event){
     case CREATE_ARROW:
     {
         bUnOrient = false;
-        if(!bDrawArrow){
-            Node *node = qgraphicsitem_cast<Node*>(itemAt(event->scenePos(), QTransform()));
-            if(node){
-                firstNodeOfArrow = node;
-                bDrawArrow = true;
-            }
-        }else{
-            Node *node = qgraphicsitem_cast<Node*>(itemAt(event->scenePos(), QTransform()));
-            if(node){
-                Arrow *arrow = new Arrow();
-                arrow->initBetweenNodes(firstNodeOfArrow, node);
-                this->addItem(arrow);
-                connect(arrow, &Arrow::delete_from_node, this, &PaintScene::slot_delete_arrow);
-            }
-            bDrawArrow = false;
-        }
+        Node *node = qgraphicsitem_cast<Node*>(itemAt(event->scenePos(), QTransform()));
+        createArrowMode(node);
         break;
     }
     case CREATE_UNORIENTED:
@@ -136,7 +80,6 @@ void PaintScene::mousePressEvent(QGraphicsSceneMouseEvent *event){
         }
         break;
     }
-
     }
 }
 
@@ -251,4 +194,67 @@ void PaintScene::slot_set_name(){
     selectedNodeForPopupMenu->setName(QInputDialog::getText(nullptr, tr("Set Name"),
                                                             tr("Enter name:"), QLineEdit::Normal,
                                                             "name", &ok));
+}
+
+void PaintScene::doSelectedMode(QGraphicsItem *item) {
+    Arrow *arrow = qgraphicsitem_cast<Arrow*>(item);
+    Node *node = qgraphicsitem_cast<Node*>(item);
+    Mininode *mininode = qgraphicsitem_cast<Mininode*>(item);
+    UnArrow *unorient = qgraphicsitem_cast<UnArrow*>(item);
+
+    if(mininode){
+        currMininode = mininode;
+    }else if(node){
+        if(qgraphicsitem_cast<Arrow*>(selectedItem)){
+            deleteMiniNodes();
+        }else if(qgraphicsitem_cast<UnArrow*>(selectedItem)){
+            deleteMiniNodes();
+        }
+        selectedItem = node;
+    }else if(arrow){
+        deleteMiniNodes();
+        selectedItem = arrow;
+        firstNodeOfArrow = arrow->getFirstNode();
+        secondNodeOfArrow = arrow->getSecondNode();
+        one = new Mininode();
+        one->setPos(firstNodeOfArrow->pos());
+        two = new Mininode();
+        two->setPos(secondNodeOfArrow->pos());
+        arrow->setFirstNode(one);
+        arrow->setSecondNode(two);
+        arrow->update();
+        this->addItem(one);
+        this->addItem(two);
+    }else if(unorient){
+        deleteMiniNodes();
+        selectedItem = unorient;
+        firstNodeOfArrow = unorient->getFirstNode();
+        secondNodeOfArrow = unorient->getSecondNode();
+        one = new Mininode();
+        one->setPos(firstNodeOfArrow->pos());
+        two = new Mininode();
+        two->setPos(secondNodeOfArrow->pos());
+        unorient->setFirstNode(one);
+        unorient->setSecondNode(two);
+        unorient->update();
+        this->addItem(one);
+        this->addItem(two);
+    }
+}
+
+void PaintScene::createArrowMode(Node *node) {
+    if(!bDrawArrow){
+        if(node){
+            firstNodeOfArrow = node;
+            bDrawArrow = true;
+        }
+    }else{
+        if(node){
+            Arrow *arrow = new Arrow();
+            arrow->initBetweenNodes(firstNodeOfArrow, node);
+            this->addItem(arrow);
+            connect(arrow, &Arrow::delete_from_node, this, &PaintScene::slot_delete_arrow);
+        }
+        bDrawArrow = false;
+    }
 }

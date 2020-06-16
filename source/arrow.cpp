@@ -24,8 +24,8 @@ void Arrow::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWi
     QPolygon polygon;
     polygon << QPoint(length-30,0) << QPoint(length-30,10) << QPoint(length-20,5);
     painter->drawPolygon(polygon);
-    Q_UNUSED(option);
-    Q_UNUSED(widget);
+    Q_UNUSED(option)
+    Q_UNUSED(widget)
 }
 
 QRectF Arrow::boundingRect() const{
@@ -132,7 +132,7 @@ Node* Arrow::getSecondNode(){
     return second;
 }
 
-void Arrow::setColor(const QColor color){
+void Arrow::setColor(const QColor& color){
     brush.setColor(color);
     pen.setColor(color);
     update();
