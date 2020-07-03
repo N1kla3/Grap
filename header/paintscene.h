@@ -25,7 +25,7 @@ signals:
 public slots:
     void slot_color();
     void slot_delete();
-    void slot_delete_arrow(Arrow *arrow);
+    void slot_delete_arrow(BaseArrow *arrow);
     void slot_set_name();
 private:
     bool bDrawArrow;
@@ -37,7 +37,7 @@ private:
     Mininode *currMininode;
     EActionToDo flag;
     void doSelectedMode(QGraphicsItem *item);
-    void createArrowMode(Node *node);
+    void createArrowMode(Node *node, BaseArrow *arrow);
     void mouseMoveEvent(QGraphicsSceneMouseEvent *event)override;
     void mousePressEvent(QGraphicsSceneMouseEvent *event)override;
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *event)override;
@@ -45,8 +45,7 @@ private:
 
     QGraphicsItem *selectedItem;
     Node *selectedNodeForPopupMenu;
-    Arrow *selectedArrowForPopupMenu;
-    UnArrow *selectedUnArrowPopup;
+    BaseArrow *selectedArrowForPopupMenu;
 };
 
 #endif // PAINTSCENE_H

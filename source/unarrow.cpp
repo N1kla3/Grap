@@ -2,7 +2,7 @@
 #include <QPainter>
 
 UnArrow::UnArrow(QObject *parent):
-    Arrow(parent)
+    BaseArrow(parent)
 {
 
 }
@@ -23,6 +23,7 @@ void UnArrow::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
     Q_UNUSED(widget);
 }
 
-int UnArrow::type() const{
-    return Type;
+QRectF UnArrow::boundingRect() const{
+    return QRectF(0, 0, length, height);
 }
+
